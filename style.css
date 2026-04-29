@@ -1,0 +1,636 @@
+/* Remove espaçamentos padrão do navegador */
+*
+{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Variáveis de cor e fonte usadas no projeto inteiro */
+:root {
+  --cor-fundo: #f4f3f0;
+  --cor-sidebar: #ffffff;
+  --cor-card: #ffffff;
+  --cor-destaque: #D85A30;
+  --cor-texto: #1a1a1a;
+  --cor-texto-fraco: #888;
+  --cor-borda: #e5e5e5;
+  --fonte-titulo: 'Barlow Condensed', sans-serif;
+  --fonte-corpo: 'Barlow', sans-serif;
+}
+
+/* Importa as fontes do Google */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap');
+
+/* Fonte padrão da página */
+body {
+  font-family: var(--fonte-corpo);
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+/* Layout principal: sidebar à esquerda, conteúdo à direita */
+#app {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+#sidebar {
+  background: var(--cor-sidebar);
+  border-right: 1px solid var(--cor-borda);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+/* Logo no topo da sidebar */
+#logo {
+  padding: 1.5rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--cor-borda);
+  margin-bottom: 0.75rem;
+}
+
+#logo h1 {
+  font-family: var(--fonte-titulo);
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+
+#logo span {
+  font-size: 11px;
+  color: var(--cor-texto-fraco);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+/* Links de navegação */
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 1.25rem;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--cor-texto-fraco);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+
+.nav-item:hover {
+  color: var(--cor-texto);
+  background: var(--cor-fundo);
+}
+
+.nav-item.active {
+  color: var(--cor-texto);
+  border-left-color: var(--cor-destaque);
+  background: var(--cor-fundo);
+  font-weight: 600;
+}
+
+/* Área de conteúdo principal */
+#conteudo {
+  padding: 2rem;
+}
+
+/* Páginas — já temos o display none/block, só adicionamos o máximo de largura */
+.page {
+  display: none;
+  max-width: 900px;
+}
+
+.page.active {
+  display: block;
+}
+
+/* Cabeçalho de cada página (título + botão) */
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.page-titulo {
+  font-family: var(--fonte-titulo);
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.page-subtitulo {
+  font-size: 13px;
+  color: var(--cor-texto-fraco);
+  margin-top: 4px;
+}
+
+/* Botão principal laranja */
+.btn-primary {
+  font-family: var(--fonte-titulo);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  background: var(--cor-destaque);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+/* Grade dos cards de métricas */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.metric-card {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.metric-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--cor-texto-fraco);
+  margin-bottom: 8px;
+}
+
+.metric-valor {
+  font-family: var(--fonte-titulo);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--cor-texto);
+}
+
+.metric-sub {
+  font-size: 12px;
+  color: var(--cor-texto-fraco);
+  margin-top: 4px;
+}
+
+/* CALENDÁRIO */
+.calendar-card {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.cal-mes {
+  font-family: var(--fonte-titulo);
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cal-nav {
+  display: flex;
+  gap: 6px;
+}
+
+.cal-nav-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  background: var(--cor-fundo);
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cal-nav-btn:hover {
+  background: var(--cor-borda);
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-dow {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cor-texto-fraco);
+  text-align: center;
+  padding: 4px 0;
+}
+
+.cal-dia {
+  min-height: 56px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--cor-texto-fraco);
+  cursor: pointer;
+  transition: border-color 0.12s;
+}
+
+.cal-dia:hover {
+  border-color: var(--cor-destaque);
+}
+
+.cal-dia.vazio {
+  border-color: transparent;
+  background: none;
+  cursor: default;
+}
+
+.cal-dia.hoje {
+  border-color: var(--cor-destaque);
+  color: var(--cor-texto);
+  font-weight: 700;
+}
+
+/* Eventos dentro dos dias */
+.cal-evento {
+  margin-top: 3px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.evento-bjj      { background: #B5D4F4; color: #0C447C; }
+.evento-judo     { background: #9FE1CB; color: #085041; }
+.evento-karate   { background: #F5C4B3; color: #712B13; }
+.evento-mma      { background: #FAC775; color: #633806; }
+.evento-muay     { background: #F4C0D1; color: #72243E; }
+
+/* LISTA DE PRÓXIMAS AULAS */
+.upcoming-card {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.section-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--cor-borda);
+  font-family: var(--fonte-titulo);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cor-texto-fraco);
+}
+
+.aula-row {
+  display: grid;
+  grid-template-columns: 52px 1fr 100px 80px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 1.25rem;
+  border-bottom: 1px solid var(--cor-borda);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.aula-row:last-child {
+  border-bottom: none;
+}
+
+.aula-row:hover {
+  background: var(--cor-fundo);
+}
+
+.data-box {
+  background: var(--cor-fundo);
+  border-radius: 6px;
+  text-align: center;
+  padding: 6px 4px;
+}
+
+.data-num {
+  font-family: var(--fonte-titulo);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--cor-texto);
+}
+
+.data-dia {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cor-texto-fraco);
+}
+
+.aula-nome {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.aula-prof {
+  font-size: 12px;
+  color: var(--cor-texto-fraco);
+}
+
+.modalidade-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.aula-horario {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cor-texto-fraco);
+  text-align: right;
+}
+
+/* FORMULÁRIO */
+.form-card {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group.full {
+  grid-column: 1 / -1;
+}
+
+.form-secao {
+  grid-column: 1 / -1;
+  font-family: var(--fonte-titulo);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--cor-texto-fraco);
+  padding-top: 0.5rem;
+}
+
+.form-divider {
+  grid-column: 1 / -1;
+  border: none;
+  border-top: 1px solid var(--cor-borda);
+}
+
+.form-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--cor-texto-fraco);
+}
+
+.form-input,
+.form-select {
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  background: var(--cor-fundo);
+  font-family: var(--fonte-corpo);
+  font-size: 14px;
+  color: var(--cor-texto);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.form-input:focus,
+.form-select:focus {
+  border-color: var(--cor-destaque);
+  box-shadow: 0 0 0 3px rgba(216, 90, 48, 0.12);
+}
+
+.form-input::placeholder {
+  color: var(--cor-texto-fraco);
+}
+
+.form-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--cor-borda);
+}
+
+.btn-ghost {
+  font-family: var(--fonte-titulo);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  background: transparent;
+  color: var(--cor-texto-fraco);
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-ghost:hover {
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+/* TABELA DE ALUNOS */
+.filtros-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.input-busca {
+  flex: 1;
+  min-width: 200px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  background: var(--cor-card);
+  font-family: var(--fonte-corpo);
+  font-size: 13px;
+  color: var(--cor-texto);
+  outline: none;
+}
+
+.input-busca:focus {
+  border-color: var(--cor-destaque);
+}
+
+.filtro-select {
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  background: var(--cor-card);
+  font-family: var(--fonte-corpo);
+  font-size: 13px;
+  color: var(--cor-texto-fraco);
+  outline: none;
+}
+
+.table-card {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.data-table thead th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--cor-texto-fraco);
+  border-bottom: 1px solid var(--cor-borda);
+  background: var(--cor-fundo);
+  white-space: nowrap;
+}
+
+.data-table tbody td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--cor-borda);
+  color: var(--cor-texto);
+  vertical-align: middle;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover td {
+  background: var(--cor-fundo);
+}
+
+.td-fraco {
+  color: var(--cor-texto-fraco) !important;
+}
+
+.td-nome {
+  font-weight: 600;
+}
+
+.btn-acao {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--cor-texto-fraco);
+  font-size: 13px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: all 0.12s;
+}
+
+.btn-acao:hover {
+  color: var(--cor-texto);
+  background: var(--cor-fundo);
+}
+
+.paginacao {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 1.25rem;
+  border-top: 1px solid var(--cor-borda);
+}
+
+.paginacao-info {
+  font-size: 12px;
+  color: var(--cor-texto-fraco);
+}
+
+.paginacao-btns {
+  display: flex;
+  gap: 4px;
+}
+
+.pg-btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  color: var(--cor-texto-fraco);
+  background: none;
+}
+
+.pg-btn.atual {
+  background: var(--cor-texto);
+  color: #fff;
+}
+
+.pg-btn:hover:not(.atual) {
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+}
