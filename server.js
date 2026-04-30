@@ -8,7 +8,8 @@ const app = express();
 // ou o banco local se estiver rodando na sua máquina
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false
+  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
+  family: 4
 });
 
 app.use(express.json());
