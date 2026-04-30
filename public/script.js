@@ -190,5 +190,116 @@ function classeModalidade(modalidade) {
   return mapa[modalidade] || 'evento-bjj';
 }
 
+// ================================
+// CALENDÁRIO DINÂMICO
+// ================================
+
+let calMesAtual = new Date().getMonth();
+let calAnoAtual = new Date().getFullYear();
+
+const nomesMeses = [
+  'Janeiro', 'Fevereiro', 'Março', 'Abril',
+  'Maio', 'Junho', 'Julho', 'Agosto',
+  'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+];
+
+const nomesDias = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+async function renderizarCalendario() {
+  const aulas = await buscarAulas();
+  const hoje = new Date();
+
+  // Título do mês
+  document.getElementById('cal-mes-titulo').textContent =
+    nomesMeses[calMesAtual] + ' ' + calAnoAtual;
+
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+
+  // Cabeçalho com os dias da semana
+  nomesDias.forEach(function(dia) {
+    const dow = document.createElement('div');
+    dow.className = 'cal-dow';
+    dow.textContent = dia;
+    grid.appendChild(dow);
+  });
+
+  // Primeiro dia do mês e total de dias
+  const primeiroDia = new Date(calAnoAtual, calMesAtual, 1).getDay();
+  const totalDias = new Date(calAnoAtual, calMesAtual + 1, 0).getDate();
+
+  // Células vazias antes do dia 1
+  for (let i = 0; i < primeiroDia; i++) {
+    const vazio = document.createElement('div');
+    vazio.className = 'cal-dia vazio';
+    grid.appendChild(vazio);
+  }
+
+  // Dias do mês
+  for (let dia = 1; dia <= totalDias; dia++) {
+    const cell = document.createElement('div');
+    cell.className = 'cal-dia';
+
+    // Marca o dia de hoje
+    if (
+      dia === hoje.getDate() &&
+      calMesAtual === hoje.getMonth() &&
+      calAnoAtual === hoje.getFullYear()
+    ) {
+      cell.classList.add('hoje');
+    }
+
+    // Número do dia
+    const numDia = document.createElement('span');
+    numDia.textContent = dia;
+    cell.appendChild(numDia);
+
+    // Aulas deste dia
+    const dataStr = calAnoAtual + '-' +
+      String(calMesAtual + 1).padStart(2, '0') + '-' +
+      String(dia).padStart(2, '0');
+
+    const aulasDoDia = aulas.filter(function(aula) {
+      return aula.data === dataStr;
+    });
+
+    aulasDoDia.forEach(function(aula) {
+      const evento = document.createElement('div');
+      evento.className = 'cal-evento ' + classeModalidade(aula.modalidade);
+      evento.textContent = aula.nome.split(' ')[0] + ' – ' + aula.modalidade;
+      cell.appendChild(evento);
+    });
+
+    grid.appendChild(cell);
+  }
+}
+
+// Botões de navegação do calendário
+document.getElementById('cal-anterior').addEventListener('click', function() {
+  calMesAtual--;
+  if (calMesAtual < 0) {
+    calMesAtual = 11;
+    calAnoAtual--;
+  }
+  renderizarCalendario();
+});
+
+document.getElementById('cal-proximo').addEventListener('click', function() {
+  calMesAtual++;
+  if (calMesAtual > 11) {
+    calMesAtual = 0;
+    calAnoAtual++;
+  }
+  renderizarCalendario();
+});
+
 // Carrega o dashboard ao iniciar
-carregarDashboard();
+async function carregarDashboard() {
+  const aulas = await buscarAulas();
+
+  document.getElementById('metric-total').textContent = aulas.length;
+  document.getElementById('metric-proximas').textContent = contarProximas(aulas);
+
+  renderizarProximas(aulas);
+  renderizarCalendario();
+}
