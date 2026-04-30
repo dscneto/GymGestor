@@ -294,11 +294,11 @@ body {
   text-overflow: ellipsis;
 }
 
-.evento-bjj      { background: #B5D4F4; color: #0C447C; }
-.evento-judo     { background: #9FE1CB; color: #085041; }
-.evento-karate   { background: #F5C4B3; color: #712B13; }
-.evento-mma      { background: #FAC775; color: #633806; }
-.evento-muay     { background: #F4C0D1; color: #72243E; }
+.evento-bjj { background: #B5D4F4; color: #0C447C; }
+.evento-mt  { background: #F5C4B3; color: #712B13; }
+.evento-kt  { background: #9FE1CB; color: #085041; }
+.evento-nj  { background: #D3D1C7; color: #2C2C2A; }
+.evento-kv  { background: #FAC775; color: #633806; }
 
 /* LISTA DE PRÓXIMAS AULAS */
 .upcoming-card {

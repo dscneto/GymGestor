@@ -37,22 +37,22 @@
   </div>
 
   <div class="metric-grid">
-    <div class="metric-card">
-      <div class="metric-label">Aulas este mês</div>
-      <div class="metric-valor">24</div>
-      <div class="metric-sub">+3 esta semana</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">Próximas 7 dias</div>
-      <div class="metric-valor">6</div>
-      <div class="metric-sub">3 modalidades</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">Professores ativos</div>
-      <div class="metric-valor">4</div>
-      <div class="metric-sub">Judô, BJJ, Karatê, MMA</div>
-    </div>
+  <div class="metric-card">
+    <div class="metric-label">Total de aulas</div>
+    <div class="metric-valor" id="metric-total">0</div>
+    <div class="metric-sub">aulas registradas</div>
   </div>
+  <div class="metric-card">
+    <div class="metric-label">Próximas 7 dias</div>
+    <div class="metric-valor" id="metric-proximas">0</div>
+    <div class="metric-sub">aulas agendadas</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-label">Professores</div>
+    <div class="metric-valor">9</div>
+    <div class="metric-sub">ativos na academia</div>
+  </div>
+</div>
 
   <div class="calendar-card">
     <div class="cal-header">
@@ -110,44 +110,9 @@
   </div>
 
   <div class="upcoming-card">
-    <div class="section-header">Próximas Aulas</div>
-    <div class="aula-row">
-      <div class="data-box">
-        <div class="data-num">14</div>
-        <div class="data-dia">Qua</div>
-      </div>
-      <div>
-        <div class="aula-nome">Sofia Ribeiro</div>
-        <div class="aula-prof">Prof. Marcos Costa</div>
-      </div>
-      <span class="modalidade-badge evento-bjj">Jiu-Jitsu</span>
-      <div class="aula-horario">18:30</div>
-    </div>
-    <div class="aula-row">
-      <div class="data-box">
-        <div class="data-num">19</div>
-        <div class="data-dia">Seg</div>
-      </div>
-      <div>
-        <div class="aula-nome">Carlos Bezerra</div>
-        <div class="aula-prof">Prof. Ana Lima</div>
-      </div>
-      <span class="modalidade-badge evento-judo">Judô</span>
-      <div class="aula-horario">10:00</div>
-    </div>
-    <div class="aula-row">
-      <div class="data-box">
-        <div class="data-num">22</div>
-        <div class="data-dia">Qui</div>
-      </div>
-      <div>
-        <div class="aula-nome">Fernanda Alves</div>
-        <div class="aula-prof">Prof. João Neto</div>
-      </div>
-      <span class="modalidade-badge evento-karate">Karatê</span>
-      <div class="aula-horario">09:00</div>
-    </div>
-  </div>
+  <div class="section-header">Próximas Aulas</div>
+  <div id="lista-proximas"></div>
+</div>
 
 </section>
 
@@ -160,19 +125,20 @@
     </div>
   </div>
 
-  <div class="form-card">
+<div class="form-card">
+  <form id="form-cadastro">
     <div class="form-grid">
 
       <div class="form-secao">● Dados do Aluno</div>
 
       <div class="form-group">
         <label class="form-label">Nome completo</label>
-        <input class="form-input" type="text" placeholder="Ex: Pedro Henrique Lima">
+        <input class="form-input" id="campo-nome" type="text" placeholder="Ex: Pedro Henrique Lima" required>
       </div>
 
       <div class="form-group">
         <label class="form-label">Idade</label>
-        <input class="form-input" type="number" placeholder="Ex: 25">
+        <input class="form-input" id="campo-idade" type="number" placeholder="Ex: 25" required>
       </div>
 
       <hr class="form-divider">
@@ -181,19 +147,19 @@
 
       <div class="form-group">
         <label class="form-label">Modalidade</label>
-        <select class="form-select" id="campo-modalidade">
-        <option value="">Selecione a modalidade</option>
-        <option>Jiu-Jitsu</option>
-        <option>Muay Thai</option>
-        <option>Karatê</option>
-        <option>Ninjutsu</option>
-        <option>Krav Maga</option>
+        <select class="form-select" id="campo-modalidade" required>
+          <option value="">Selecione a modalidade</option>
+          <option>Jiu-Jitsu</option>
+          <option>Muay Thai</option>
+          <option>Karatê</option>
+          <option>Ninjutsu</option>
+          <option>Krav Maga</option>
         </select>
       </div>
 
       <div class="form-group">
         <label class="form-label">Professor</label>
-        <select class="form-select">
+        <select class="form-select" id="campo-professor" required>
           <option value="">Selecione o professor</option>
           <option>Zenon Cruz</option>
           <option>Kesiah Sales</option>
@@ -209,21 +175,22 @@
 
       <div class="form-group">
         <label class="form-label">Data</label>
-        <input class="form-input" type="date">
+        <input class="form-input" id="campo-data" type="date" required>
       </div>
 
       <div class="form-group">
         <label class="form-label">Horário</label>
-        <input class="form-input" type="time">
+        <input class="form-input" id="campo-horario" type="time" required>
       </div>
 
     </div>
 
     <div class="form-acoes">
-      <button class="btn-ghost">Cancelar</button>
-      <button class="btn-primary">Agendar Aula</button>
+      <button type="button" class="btn-ghost">Cancelar</button>
+      <button type="submit" class="btn-primary">Agendar Aula</button>
     </div>
-  </div>
+  </form>
+</div>
 
 </section>
 
@@ -275,67 +242,7 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td class="td-nome">Pedro Henrique Lima</td>
-          <td class="td-fraco">23</td>
-          <td><span class="modalidade-badge evento-bjj">Jiu-Jitsu</span></td>
-          <td class="td-fraco">Marcos Costa</td>
-          <td class="td-fraco">05/05/2026</td>
-          <td class="td-fraco">18:30</td>
-          <td>
-            <button class="btn-acao">✎</button>
-            <button class="btn-acao">✕</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="td-nome">Maria Souza</td>
-          <td class="td-fraco">31</td>
-          <td><span class="modalidade-badge evento-judo">Judô</span></td>
-          <td class="td-fraco">Ana Lima</td>
-          <td class="td-fraco">07/05/2026</td>
-          <td class="td-fraco">10:00</td>
-          <td>
-            <button class="btn-acao">✎</button>
-            <button class="btn-acao">✕</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="td-nome">Lucas Monteiro</td>
-          <td class="td-fraco">17</td>
-          <td><span class="modalidade-badge evento-karate">Karatê</span></td>
-          <td class="td-fraco">João Neto</td>
-          <td class="td-fraco">08/05/2026</td>
-          <td class="td-fraco">09:00</td>
-          <td>
-            <button class="btn-acao">✎</button>
-            <button class="btn-acao">✕</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="td-nome">André Torres</td>
-          <td class="td-fraco">28</td>
-          <td><span class="modalidade-badge evento-mma">MMA</span></td>
-          <td class="td-fraco">Marcos Costa</td>
-          <td class="td-fraco">12/05/2026</td>
-          <td class="td-fraco">20:00</td>
-          <td>
-            <button class="btn-acao">✎</button>
-            <button class="btn-acao">✕</button>
-          </td>
-        </tr>
-        <tr>
-          <td class="td-nome">Sofia Ribeiro</td>
-          <td class="td-fraco">26</td>
-          <td><span class="modalidade-badge evento-bjj">Jiu-Jitsu</span></td>
-          <td class="td-fraco">Marcos Costa</td>
-          <td class="td-fraco">14/05/2026</td>
-          <td class="td-fraco">18:30</td>
-          <td>
-            <button class="btn-acao">✎</button>
-            <button class="btn-acao">✕</button>
-          </td>
-        </tr>
+      <tbody id="tbody-alunos">
       </tbody>
     </table>
     <div class="paginacao">
