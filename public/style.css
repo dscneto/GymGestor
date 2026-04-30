@@ -634,3 +634,121 @@ body {
   background: var(--cor-fundo);
   color: var(--cor-texto);
 }
+
+/* ================================
+   RESPONSIVO — TELAS PEQUENAS
+   ================================ */
+
+@media (max-width: 768px) {
+
+  /* Layout vira coluna única */
+  #app {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+  }
+
+  /* Sidebar vai para baixo como menu fixo */
+  #sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    height: auto;
+    width: 100%;
+    border-right: none;
+    border-top: 1px solid var(--cor-borda);
+    z-index: 100;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+  }
+
+  /* Esconde o logo na versão mobile */
+  #logo {
+    display: none;
+  }
+
+  /* Nav vira linha horizontal */
+  #sidebar nav {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  /* Cada item ocupa espaço igual */
+  .nav-item {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    padding: 14px 8px;
+    font-size: 12px;
+    border-left: none;
+    border-top: 3px solid transparent;
+  }
+
+  .nav-item.active {
+    border-left-color: transparent;
+    border-top-color: var(--cor-destaque);
+  }
+
+  /* Conteúdo ganha espaço no fundo para não ficar atrás do menu */
+  #conteudo {
+    padding: 1.25rem 1rem 80px;
+  }
+
+  /* Página ocupa largura total */
+  .page {
+    max-width: 100%;
+  }
+
+  /* Cards de métricas viram coluna única */
+  .metric-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Formulário vira coluna única */
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full {
+    grid-column: 1;
+  }
+
+  /* Cabeçalho empilha em telas pequenas */
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  /* Tabela com scroll horizontal */
+  .table-card {
+    overflow-x: auto;
+  }
+
+  /* Calendário com células menores */
+  .cal-dia {
+    min-height: 36px;
+    font-size: 11px;
+    padding: 3px;
+  }
+
+  .cal-evento {
+    display: none;
+  }
+
+  /* Lista de próximas aulas ajustada */
+  .aula-row {
+    grid-template-columns: 48px 1fr;
+    gap: 8px;
+  }
+
+  .modalidade-badge,
+  .aula-horario {
+    display: none;
+  }
+
+}
