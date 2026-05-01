@@ -43,6 +43,7 @@ async function carregarDashboard() {
   // Atualiza os cards de métricas
   document.getElementById('metric-total').textContent = aulas.length;
   document.getElementById('metric-proximas').textContent = contarProximas(aulas);
+  document.getElementById('metric-professores').textContent = contarProfessores(aulas);
 
   // Atualiza a lista de próximas aulas
   renderizarProximas(aulas);
@@ -302,4 +303,10 @@ async function carregarDashboard() {
 
   renderizarProximas(aulas);
   renderizarCalendario();
+}
+
+function contarProfessores(aulas) {
+    const professores = aulas.map(function(aula) { return aula.professor; });
+      const unicos = [...new Set(professores)];
+        return unicos.length;
 }
