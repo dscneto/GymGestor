@@ -25,6 +25,7 @@ function renderizarTabela(aulas) {
         <td class="td-fraco">${dataFormatada}</td>
         <td class="td-fraco">${aula.horario}</td>
         <td>
+          <button class="btn-acao" onclick='editarAula(${JSON.stringify(aula)})'>✎</button>
           <button class="btn-acao" onclick="deletarAula(${aula.id})">✕</button>
         </td>
       </tr>

@@ -49,10 +49,10 @@ app.post('/api/aulas', async function(req, res) {
 
 // ROTA: atualizar uma aula
 app.put('/api/aulas/:id', async function(req, res) {
-  const { nome, idade, modalidade, professor, data, horario } = req.body;
+  const { nome, idade, modalidade, professor, data, horario, unidade } = req.body;
   await pool.query(
-    'UPDATE aulas SET nome=$1, idade=$2, modalidade=$3, professor=$4, data=$5, horario=$6 WHERE id=$7',
-    [nome, idade, modalidade, professor, data, horario, req.params.id]
+    'UPDATE aulas SET nome=$1, idade=$2, modalidade=$3, professor=$4, data=$5, horario=$6, unidade=$7 WHERE id=$8',
+    [nome, idade, modalidade, professor, data, horario, unidade, req.params.id]
   );
   res.json({ ok: true });
 });
