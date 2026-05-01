@@ -751,4 +751,25 @@ body {
     display: none;
   }
 
+  /* Esconde colunas menos importantes no mobile */
+  .data-table thead th:nth-child(2),
+  .data-table thead th:nth-child(5),
+  .data-table thead th:nth-child(6),
+  .data-table thead th:nth-child(7),
+  .data-table tbody td:nth-child(2),
+  .data-table tbody td:nth-child(5),
+  .data-table tbody td:nth-child(6),
+  .data-table tbody td:nth-child(7) {
+    display: none;
+    }
+
+    /* Filtros em coluna */
+    .filtros-row {
+      flex-direction: column;
+      }
+
+      .input-busca,
+      .filtro-select {
+        width: 100%;
+        }
 }
