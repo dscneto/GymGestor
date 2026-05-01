@@ -751,25 +751,42 @@ body {
     display: none;
   }
 
-  /* Esconde colunas menos importantes no mobile */
-  .data-table thead th:nth-child(2),
-  .data-table thead th:nth-child(5),
-  .data-table thead th:nth-child(6),
-  .data-table thead th:nth-child(7),
-  .data-table tbody td:nth-child(2),
-  .data-table tbody td:nth-child(5),
-  .data-table tbody td:nth-child(6),
-  .data-table tbody td:nth-child(7) {
-    display: none;
-    }
+/* Esconde: Idade, Unidade, Data, Horário */
+.data-table thead th:nth-child(2),
+.data-table thead th:nth-child(5),
+.data-table thead th:nth-child(6),
+.data-table thead th:nth-child(7),
+.data-table tbody td:nth-child(2),
+.data-table tbody td:nth-child(5),
+.data-table tbody td:nth-child(6),
+.data-table tbody td:nth-child(7) {
+  display: none;
+  }
 
-    /* Filtros em coluna */
-    .filtros-row {
-      flex-direction: column;
-      }
-
-      .input-busca,
-      .filtro-select {
-        width: 100%;
-        }
+  /* Corrige badge de modalidade no mobile */
+  .modalidade-badge {
+    font-size: 10px;
+      padding: 3px 6px;
+        display: inline-block;
+          white-space: nowrap;
+          }
 }
+
+/* TABLET — entre 769px e 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+  #app {
+      grid-template-columns: 180px 1fr;
+        }
+
+          .modalidade-badge {
+              font-size: 11px;
+                  padding: 3px 8px;
+                      white-space: nowrap;
+                        }
+
+                          .data-table thead th,
+                            .data-table tbody td {
+                                padding: 10px 8px;
+                                    font-size: 12px;
+                                      }
+                                      }
