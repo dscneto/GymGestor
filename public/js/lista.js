@@ -21,6 +21,7 @@ function renderizarTabela(aulas) {
         <td class="td-fraco">${aula.idade}</td>
         <td><span class="modalidade-badge ${classe}">${aula.modalidade}</span></td>
         <td class="td-fraco">${aula.professor}</td>
+        <td class="td-fraco">${aula.unidade || 'Candeias'}</td>
         <td class="td-fraco">${dataFormatada}</td>
         <td class="td-fraco">${aula.horario}</td>
         <td>

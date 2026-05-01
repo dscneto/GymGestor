@@ -39,10 +39,10 @@ app.get('/api/aulas', async function(req, res) {
 
 // ROTA: cadastrar nova aula
 app.post('/api/aulas', async function(req, res) {
-  const { nome, idade, modalidade, professor, data, horario } = req.body;
+  const { nome, idade, modalidade, professor, data, horario, unidade } = req.body;
   const resultado = await pool.query(
-    'INSERT INTO aulas (nome, idade, modalidade, professor, data, horario) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
-    [nome, idade, modalidade, professor, data, horario]
+    'INSERT INTO aulas (nome, idade, modalidade, professor, data, horario, unidade) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
+    [nome, idade, modalidade, professor, data, horario, unidade]
   );
   res.json({ id: resultado.rows[0].id });
 });

@@ -9,7 +9,8 @@ formulario.addEventListener('submit', async function(evento) {
     modalidade: document.getElementById('campo-modalidade').value,
     professor:  document.getElementById('campo-professor').value,
     data:       document.getElementById('campo-data').value,
-    horario:    document.getElementById('campo-horario').value
+    horario:    document.getElementById('campo-horario').value,
+    unidade:    document.getElementById('campo-unidade').value
   };
 
   await fetch('/api/aulas', {
