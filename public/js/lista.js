@@ -1,13 +1,49 @@
+let todasAulas = [];
+
 async function carregarLista() {
-  const aulas = await buscarAulas();
-  renderizarTabela(aulas);
+  todasAulas = await buscarAulas();
+  atualizarSubtitulo();
+  renderizarTabela(todasAulas);
+  ativarFiltros();
+}
+
+function atualizarSubtitulo() {
+  document.getElementById('lista-subtitulo').textContent =
+    todasAulas.length + ' aulas registradas';
+}
+
+function ativarFiltros() {
+  const inputBusca      = document.getElementById('filtro-busca');
+  const selectModalidade = document.getElementById('filtro-modalidade');
+  const selectProfessor  = document.getElementById('filtro-professor');
+
+  inputBusca.addEventListener('input', aplicarFiltros);
+  selectModalidade.addEventListener('change', aplicarFiltros);
+  selectProfessor.addEventListener('change', aplicarFiltros);
+}
+
+function aplicarFiltros() {
+  const busca       = document.getElementById('filtro-busca').value.toLowerCase();
+  const modalidade  = document.getElementById('filtro-modalidade').value;
+  const professor   = document.getElementById('filtro-professor').value;
+
+  const filtradas = todasAulas.filter(function(aula) {
+    const bateBusca = aula.nome.toLowerCase().includes(busca) ||
+                      aula.professor.toLowerCase().includes(busca);
+    const bateModalidade = modalidade === '' || aula.modalidade === modalidade;
+    const bateProfessor  = professor === ''  || aula.professor === professor;
+
+    return bateBusca && bateModalidade && bateProfessor;
+  });
+
+  renderizarTabela(filtradas);
 }
 
 function renderizarTabela(aulas) {
   const tbody = document.getElementById('tbody-alunos');
 
   if (aulas.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 1.5rem; color: var(--cor-texto-fraco);">Nenhuma aula cadastrada.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 1.5rem; color: var(--cor-texto-fraco);">Nenhuma aula encontrada.</td></tr>';
     return;
   }
 
