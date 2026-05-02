@@ -14,5 +14,6 @@ navItems.forEach(function (link) {
 
     if (paginaDestino === 'dashboard') carregarDashboard();
     if (paginaDestino === 'lista') carregarLista();
+    if (paginaDestino === 'efetivos') carregarEfetivos();
   });
 });
