@@ -258,41 +258,32 @@ function aplicarFiltrosEfetivos() {
     });
 
     renderizarEfetivos(filtrados);
-}
+  }
 
-async function renderizarEfetivos(alunos) {
-    const tbody = document.getElementById('tbody-efetivos');
+    async function renderizarEfetivos(alunos) {
+  const tbody = document.getElementById('tbody-efetivos');
 
-    if (alunos.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 1.5rem; color: var(--cor-texto-fraco);">Nenhum aluno cadastrado.</td></tr>';
-        return;
-    }
+  if (alunos.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 1.5rem; color: var(--cor-texto-fraco);">Nenhum aluno cadastrado.</td></tr>';
+    return;
+  }
 
-    const linhas = await Promise.all(alunos.map(async function (aluno) {
-        const resp = await fetch('/api/alunos/' + aluno.id);
-        const dados = await resp.json();
-        const matriculas = dados.matriculas || [];
-
-        const badges = matriculas.map(function (m) {
-            return `<span class="modalidade-badge ${classeModalidade(m.modalidade)}">${m.modalidade}</span>`;
-        }).join(' ');
-
-        return `
+  tbody.innerHTML = alunos.map(function(aluno) {
+    return `
       <tr>
         <td class="td-nome">${aluno.nome}</td>
         <td class="td-fraco">${aluno.cpf}</td>
         <td class="td-fraco">${aluno.telefone || '—'}</td>
         <td class="td-fraco">${aluno.unidade}</td>
-        <td>${badges || '—'}</td>
+        <td class="td-fraco">—</td>
         <td class="td-fraco">${aluno.nome_responsavel || '—'}</td>
         <td>
+          <button class="btn-acao" onclick='editarEfetivo(${JSON.stringify(aluno)})'>✎</button>
           <button class="btn-acao" onclick="deletarEfetivo(${aluno.id})">✕</button>
         </td>
       </tr>
     `;
-    }));
-
-    tbody.innerHTML = linhas.join('');
+  }).join('');
 }
 
 async function deletarEfetivo(id) {
