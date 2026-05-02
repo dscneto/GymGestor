@@ -63,6 +63,79 @@ app.delete('/api/aulas/:id', async function(req, res) {
   res.json({ ok: true });
 });
 
+// ================================
+// ROTAS — ALUNOS EFETIVOS
+// ================================
+
+// Buscar todos os alunos
+app.get('/api/alunos', async function(req, res) {
+  const resultado = await pool.query('SELECT * FROM alunos ORDER BY nome');
+  res.json(resultado.rows);
+});
+
+// Buscar um aluno com suas matrículas
+app.get('/api/alunos/:id', async function(req, res) {
+  const aluno = await pool.query('SELECT * FROM alunos WHERE id = $1', [req.params.id]);
+  const matriculas = await pool.query('SELECT * FROM matriculas WHERE aluno_id = $1', [req.params.id]);
+  res.json({ ...aluno.rows[0], matriculas: matriculas.rows });
+});
+
+// Cadastrar novo aluno
+app.post('/api/alunos', async function(req, res) {
+  const { nome, data_nascimento, cpf, telefone, unidade, nome_responsavel, contato_responsavel } = req.body;
+  const resultado = await pool.query(
+    'INSERT INTO alunos (nome, data_nascimento, cpf, telefone, unidade, nome_responsavel, contato_responsavel) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
+    [nome, data_nascimento, cpf, telefone, unidade, nome_responsavel, contato_responsavel]
+  );
+  res.json({ id: resultado.rows[0].id });
+});
+
+// Atualizar aluno
+app.put('/api/alunos/:id', async function(req, res) {
+  const { nome, data_nascimento, cpf, telefone, unidade, nome_responsavel, contato_responsavel } = req.body;
+  await pool.query(
+    'UPDATE alunos SET nome=$1, data_nascimento=$2, cpf=$3, telefone=$4, unidade=$5, nome_responsavel=$6, contato_responsavel=$7 WHERE id=$8',
+    [nome, data_nascimento, cpf, telefone, unidade, nome_responsavel, contato_responsavel, req.params.id]
+  );
+  res.json({ ok: true });
+});
+
+// Deletar aluno
+app.delete('/api/alunos/:id', async function(req, res) {
+  await pool.query('DELETE FROM alunos WHERE id = $1', [req.params.id]);
+  res.json({ ok: true });
+});
+
+// ================================
+// ROTAS — MATRÍCULAS
+// ================================
+
+// Adicionar matrícula
+app.post('/api/matriculas', async function(req, res) {
+  const { aluno_id, modalidade, professor, data_matricula, vencimento } = req.body;
+  const resultado = await pool.query(
+    'INSERT INTO matriculas (aluno_id, modalidade, professor, data_matricula, vencimento, status_pagamento) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
+    [aluno_id, modalidade, professor, data_matricula, vencimento, 'em dia']
+  );
+  res.json({ id: resultado.rows[0].id });
+});
+
+// Atualizar status de pagamento
+app.put('/api/matriculas/:id', async function(req, res) {
+  const { status_pagamento } = req.body;
+  await pool.query(
+    'UPDATE matriculas SET status_pagamento=$1 WHERE id=$2',
+    [status_pagamento, req.params.id]
+  );
+  res.json({ ok: true });
+});
+
+// Deletar matrícula
+app.delete('/api/matriculas/:id', async function(req, res) {
+  await pool.query('DELETE FROM matriculas WHERE id = $1', [req.params.id]);
+  res.json({ ok: true });
+});
+
 // Inicia o servidor
 const PORTA = process.env.PORT || 3000;
 app.listen(PORTA, async function() {
