@@ -1,53 +1,51 @@
 let todosEfetivos = [];
 
 async function carregarEfetivos() {
-  const resposta = await fetch('/api/alunos');
-  todosEfetivos = await resposta.json();
-  document.getElementById('efetivos-subtitulo').textContent =
-    todosEfetivos.length + ' alunos cadastrados';
-  renderizarEfetivos(todosEfetivos);
-  ativarFiltrosEfetivos();
+    const resposta = await fetch('/api/alunos');
+    todosEfetivos = await resposta.json();
+    document.getElementById('efetivos-subtitulo').textContent =
+        todosEfetivos.length + ' alunos cadastrados';
+    renderizarEfetivos(todosEfetivos);
+    ativarFiltrosEfetivos();
 }
 
 function ativarFiltrosEfetivos() {
-  document.getElementById('efetivos-busca').addEventListener('input', aplicarFiltrosEfetivos);
-  document.getElementById('efetivos-unidade').addEventListener('change', aplicarFiltrosEfetivos);
-  document.getElementById('efetivos-modalidade').addEventListener('change', aplicarFiltrosEfetivos);
+    document.getElementById('efetivos-busca').addEventListener('input', aplicarFiltrosEfetivos);
+    document.getElementById('efetivos-unidade').addEventListener('change', aplicarFiltrosEfetivos);
+    document.getElementById('efetivos-modalidade').addEventListener('change', aplicarFiltrosEfetivos);
 }
 
 function aplicarFiltrosEfetivos() {
-  const busca     = document.getElementById('efetivos-busca').value.toLowerCase();
-  const unidade   = document.getElementById('efetivos-unidade').value;
-  const modalidade = document.getElementById('efetivos-modalidade').value;
+    const busca = document.getElementById('efetivos-busca').value.toLowerCase();
+    const unidade = document.getElementById('efetivos-unidade').value;
 
-  const filtrados = todosEfetivos.filter(function(aluno) {
-    const bateBusca   = aluno.nome.toLowerCase().includes(busca);
-    const bateUnidade = unidade === '' || aluno.unidade === unidade;
-    return bateBusca && bateUnidade;
-  });
+    const filtrados = todosEfetivos.filter(function (aluno) {
+        const bateBusca = aluno.nome.toLowerCase().includes(busca);
+        const bateUnidade = unidade === '' || aluno.unidade === unidade;
+        return bateBusca && bateUnidade;
+    });
 
-  renderizarEfetivos(filtrados);
+    renderizarEfetivos(filtrados);
 }
 
 async function renderizarEfetivos(alunos) {
-  const tbody = document.getElementById('tbody-efetivos');
+    const tbody = document.getElementById('tbody-efetivos');
 
-  if (alunos.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 1.5rem; color: var(--cor-texto-fraco);">Nenhum aluno cadastrado.</td></tr>';
-    return;
-  }
+    if (alunos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 1.5rem; color: var(--cor-texto-fraco);">Nenhum aluno cadastrado.</td></tr>';
+        return;
+    }
 
-  // Busca matrículas de cada aluno
-  const linhas = await Promise.all(alunos.map(async function(aluno) {
-    const resp = await fetch('/api/alunos/' + aluno.id);
-    const dados = await resp.json();
-    const matriculas = dados.matriculas || [];
+    const linhas = await Promise.all(alunos.map(async function (aluno) {
+        const resp = await fetch('/api/alunos/' + aluno.id);
+        const dados = await resp.json();
+        const matriculas = dados.matriculas || [];
 
-    const badges = matriculas.map(function(m) {
-      return `<span class="modalidade-badge ${classeModalidade(m.modalidade)}">${m.modalidade}</span>`;
-    }).join(' ');
+        const badges = matriculas.map(function (m) {
+            return `<span class="modalidade-badge ${classeModalidade(m.modalidade)}">${m.modalidade}</span>`;
+        }).join(' ');
 
-    return `
+        return `
       <tr>
         <td class="td-nome">${aluno.nome}</td>
         <td class="td-fraco">${aluno.cpf}</td>
@@ -60,63 +58,138 @@ async function renderizarEfetivos(alunos) {
         </td>
       </tr>
     `;
-  }));
+    }));
 
-  tbody.innerHTML = linhas.join('');
+    tbody.innerHTML = linhas.join('');
 }
 
 async function deletarEfetivo(id) {
-  const confirmar = confirm('Deseja remover este aluno?');
-  if (!confirmar) return;
-  await fetch('/api/alunos/' + id, { method: 'DELETE' });
-  carregarEfetivos();
+    const confirmar = confirm('Deseja remover este aluno?');
+    if (!confirmar) return;
+    await fetch('/api/alunos/' + id, { method: 'DELETE' });
+    carregarEfetivos();
 }
 
+// ================================
+// FORMULÁRIO
+// ================================
+
 function abrirFormEfetivo() {
-  document.getElementById('modal-efetivo').style.display = 'block';
+    document.getElementById('modal-efetivo').style.display = 'block';
 }
 
 function fecharFormEfetivo() {
-  document.getElementById('modal-efetivo').style.display = 'none';
-  document.getElementById('form-efetivo').reset();
+    document.getElementById('modal-efetivo').style.display = 'none';
+    document.getElementById('form-efetivo').reset();
+    document.getElementById('container-horarios').innerHTML = '';
 }
 
-document.getElementById('form-efetivo').addEventListener('submit', async function(evento) {
-  evento.preventDefault();
+// Atualiza horários quando unidade ou modalidade mudam
+async function atualizarHorarios() {
+    const unidade = document.getElementById('ef-unidade').value;
+    const modalidade = document.getElementById('ef-modalidade').value;
+    const container = document.getElementById('container-horarios');
 
-  const aluno = {
-    nome:               document.getElementById('ef-nome').value,
-    data_nascimento:    document.getElementById('ef-nascimento').value,
-    cpf:                document.getElementById('ef-cpf').value,
-    telefone:           document.getElementById('ef-telefone').value,
-    unidade:            document.getElementById('ef-unidade').value,
-    nome_responsavel:   document.getElementById('ef-resp-nome').value,
-    contato_responsavel: document.getElementById('ef-resp-contato').value
-  };
+    if (!unidade || !modalidade) {
+        container.innerHTML = '';
+        return;
+    }
 
-  const resAluno = await fetch('/api/alunos', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(aluno)
-  });
+    const resp = await fetch('/api/horarios?unidade=' + unidade + '&modalidade=' + modalidade);
+    const horarios = await resp.json();
 
-  const { id } = await resAluno.json();
+    if (horarios.length === 0) {
+        container.innerHTML = '<div style="color: var(--cor-texto-fraco); font-size: 13px;">Nenhum horário disponível para esta combinação.</div>';
+        return;
+    }
 
-  const matricula = {
-    aluno_id:       id,
-    modalidade:     document.getElementById('ef-modalidade').value,
-    professor:      document.getElementById('ef-professor').value,
-    data_matricula: document.getElementById('ef-data-matricula').value,
-    vencimento:     document.getElementById('ef-vencimento').value
-  };
+    container.innerHTML = horarios.map(function (h) {
+        const diasDisponiveis = h.dias.split(',');
+        const turmaLabel = h.turma ? ` — ${h.turma}` : '';
 
-  await fetch('/api/matriculas', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(matricula)
-  });
+        const checkboxesDias = diasDisponiveis.map(function (dia) {
+            return `
+        <label style="display:inline-flex; align-items:center; gap:4px; margin-right:10px; font-size:13px; cursor:pointer;">
+          <input type="checkbox" name="dia_${h.id}" value="${dia}"> ${dia}
+        </label>
+      `;
+        }).join('');
 
-  fecharFormEfetivo();
-  alert('Aluno cadastrado com sucesso!');
-  carregarEfetivos();
+        return `
+      <div class="horario-opcao" style="background: var(--cor-fundo); border: 1px solid var(--cor-borda); border-radius: 8px; padding: 12px; margin-bottom: 10px;">
+        <div style="font-weight: 600; font-size: 14px; margin-bottom: 8px;">
+          ${h.horario}h${turmaLabel}
+        </div>
+        <div style="margin-bottom: 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--cor-texto-fraco);">Dias que irá treinar:</div>
+        <div>${checkboxesDias}</div>
+        <div style="margin-top: 10px;">
+          <label class="form-label">Valor da mensalidade (R$)</label>
+          <input class="form-input" type="number" step="0.01" name="valor_${h.id}" placeholder="Ex: 150.00" style="margin-top: 4px;">
+        </div>
+        <input type="hidden" name="horario_id_${h.id}" value="${h.id}">
+      </div>
+    `;
+    }).join('');
+}
+
+document.getElementById('form-efetivo').addEventListener('submit', async function (evento) {
+    evento.preventDefault();
+
+    const aluno = {
+        nome: document.getElementById('ef-nome').value,
+        data_nascimento: document.getElementById('ef-nascimento').value,
+        cpf: document.getElementById('ef-cpf').value,
+        telefone: document.getElementById('ef-telefone').value,
+        unidade: document.getElementById('ef-unidade').value,
+        nome_responsavel: document.getElementById('ef-resp-nome').value,
+        contato_responsavel: document.getElementById('ef-resp-contato').value
+    };
+
+    const resAluno = await fetch('/api/alunos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(aluno)
+    });
+
+    const { id } = await resAluno.json();
+
+    // Coleta as matrículas selecionadas
+    const modalidade = document.getElementById('ef-modalidade').value;
+    const dataMatricula = document.getElementById('ef-data-matricula').value;
+    const vencimento = document.getElementById('ef-vencimento').value;
+    const container = document.getElementById('container-horarios');
+    const opcoes = container.querySelectorAll('.horario-opcao');
+
+    for (const opcao of opcoes) {
+        const horarioIdInput = opcao.querySelector('[name^="horario_id_"]');
+        const horarioId = horarioIdInput.value;
+        const checkboxes = opcao.querySelectorAll('input[type="checkbox"]:checked');
+        const valorInput = opcao.querySelector('[name^="valor_"]');
+        const valor = valorInput ? valorInput.value : null;
+
+        if (checkboxes.length === 0) continue; // pula se nenhum dia foi selecionado
+
+        const diasEscolhidos = Array.from(checkboxes).map(function (cb) {
+            return cb.value;
+        }).join(',');
+
+        await fetch('/api/matriculas', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                aluno_id: id,
+                modalidade: modalidade,
+                professor: document.getElementById('ef-professor').value,
+                data_matricula: dataMatricula,
+                vencimento: vencimento,
+                horario_id: horarioId,
+                dias_escolhidos: diasEscolhidos,
+                valor_mensalidade: valor
+            })
+        });
+    }
+
+    fecharFormEfetivo();
+    alert('Aluno cadastrado com sucesso!');
+    carregarEfetivos();
 });
