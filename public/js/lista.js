@@ -13,9 +13,9 @@ function atualizarSubtitulo() {
 }
 
 function ativarFiltros() {
-  const inputBusca      = document.getElementById('filtro-busca');
+  const inputBusca = document.getElementById('filtro-busca');
   const selectModalidade = document.getElementById('filtro-modalidade');
-  const selectProfessor  = document.getElementById('filtro-professor');
+  const selectProfessor = document.getElementById('filtro-professor');
 
   inputBusca.addEventListener('input', aplicarFiltros);
   selectModalidade.addEventListener('change', aplicarFiltros);
@@ -23,15 +23,15 @@ function ativarFiltros() {
 }
 
 function aplicarFiltros() {
-  const busca       = document.getElementById('filtro-busca').value.toLowerCase();
-  const modalidade  = document.getElementById('filtro-modalidade').value;
-  const professor   = document.getElementById('filtro-professor').value;
+  const busca = document.getElementById('filtro-busca').value.toLowerCase();
+  const modalidade = document.getElementById('filtro-modalidade').value;
+  const professor = document.getElementById('filtro-professor').value;
 
-  const filtradas = todasAulas.filter(function(aula) {
+  const filtradas = todasAulas.filter(function (aula) {
     const bateBusca = aula.nome.toLowerCase().includes(busca) ||
-                      aula.professor.toLowerCase().includes(busca);
+      aula.professor.toLowerCase().includes(busca);
     const bateModalidade = modalidade === '' || aula.modalidade === modalidade;
-    const bateProfessor  = professor === ''  || aula.professor === professor;
+    const bateProfessor = professor === '' || aula.professor === professor;
 
     return bateBusca && bateModalidade && bateProfessor;
   });
@@ -47,7 +47,7 @@ function renderizarTabela(aulas) {
     return;
   }
 
-  tbody.innerHTML = aulas.map(function(aula) {
+  tbody.innerHTML = aulas.map(function (aula) {
     const classe = classeModalidade(aula.modalidade);
     const dataFormatada = new Date(aula.data + 'T00:00:00').toLocaleDateString('pt-BR');
 

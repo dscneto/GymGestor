@@ -1,6 +1,5 @@
 /* Remove espaçamentos padrão do navegador */
-*
-{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -294,11 +293,30 @@ body {
   text-overflow: ellipsis;
 }
 
-.evento-bjj { background: #B5D4F4; color: #0C447C; }
-.evento-mt  { background: #F5C4B3; color: #712B13; }
-.evento-kt  { background: #9FE1CB; color: #085041; }
-.evento-nj  { background: #D3D1C7; color: #2C2C2A; }
-.evento-kv  { background: #FAC775; color: #633806; }
+.evento-bjj {
+  background: #B5D4F4;
+  color: #0C447C;
+}
+
+.evento-mt {
+  background: #F5C4B3;
+  color: #712B13;
+}
+
+.evento-kt {
+  background: #9FE1CB;
+  color: #085041;
+}
+
+.evento-nj {
+  background: #D3D1C7;
+  color: #2C2C2A;
+}
+
+.evento-kv {
+  background: #FAC775;
+  color: #633806;
+}
 
 /* LISTA DE PRÓXIMAS AULAS */
 .upcoming-card {
@@ -751,42 +769,42 @@ body {
     display: none;
   }
 
-/* Esconde: Idade, Unidade, Data, Horário */
-.data-table thead th:nth-child(2),
-.data-table thead th:nth-child(5),
-.data-table thead th:nth-child(6),
-.data-table thead th:nth-child(7),
-.data-table tbody td:nth-child(2),
-.data-table tbody td:nth-child(5),
-.data-table tbody td:nth-child(6),
-.data-table tbody td:nth-child(7) {
-  display: none;
+  /* Esconde: Idade, Unidade, Data, Horário */
+  .data-table thead th:nth-child(2),
+  .data-table thead th:nth-child(5),
+  .data-table thead th:nth-child(6),
+  .data-table thead th:nth-child(7),
+  .data-table tbody td:nth-child(2),
+  .data-table tbody td:nth-child(5),
+  .data-table tbody td:nth-child(6),
+  .data-table tbody td:nth-child(7) {
+    display: none;
   }
 
   /* Corrige badge de modalidade no mobile */
   .modalidade-badge {
     font-size: 10px;
-      padding: 3px 6px;
-        display: inline-block;
-          white-space: nowrap;
-          }
+    padding: 3px 6px;
+    display: inline-block;
+    white-space: nowrap;
+  }
 }
 
 /* TABLET — entre 769px e 1024px */
 @media (min-width: 769px) and (max-width: 1024px) {
   #app {
-      grid-template-columns: 180px 1fr;
-        }
+    grid-template-columns: 180px 1fr;
+  }
 
-          .modalidade-badge {
-              font-size: 11px;
-                  padding: 3px 8px;
-                      white-space: nowrap;
-                        }
+  .modalidade-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+    white-space: nowrap;
+  }
 
-                          .data-table thead th,
-                            .data-table tbody td {
-                                padding: 10px 8px;
-                                    font-size: 12px;
-                                      }
-                                      }
+  .data-table thead th,
+  .data-table tbody td {
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+}

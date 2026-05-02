@@ -25,14 +25,14 @@ function contarProximas(aulas) {
   const em7dias = new Date();
   em7dias.setDate(hoje.getDate() + 7);
 
-  return aulas.filter(function(aula) {
+  return aulas.filter(function (aula) {
     const dataAula = new Date(aula.data + 'T00:00:00');
     return dataAula >= hoje && dataAula <= em7dias;
   }).length;
 }
 
 function contarProfessores(aulas) {
-  const professores = aulas.map(function(aula) { return aula.professor; });
+  const professores = aulas.map(function (aula) { return aula.professor; });
   const unicos = [...new Set(professores)];
   return unicos.length;
 }
@@ -42,7 +42,7 @@ function renderizarProximas(aulas) {
   const hoje = new Date();
 
   const proximas = aulas
-    .filter(function(aula) { return new Date(aula.data + 'T00:00:00') >= hoje; })
+    .filter(function (aula) { return new Date(aula.data + 'T00:00:00') >= hoje; })
     .slice(0, 5);
 
   if (proximas.length === 0) {
@@ -50,7 +50,7 @@ function renderizarProximas(aulas) {
     return;
   }
 
-  container.innerHTML = proximas.map(function(aula) {
+  container.innerHTML = proximas.map(function (aula) {
     const data = new Date(aula.data + 'T00:00:00');
     const dia = data.getDate();
     const nomeDia = data.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '');
@@ -83,7 +83,7 @@ async function renderizarCalendario() {
   const grid = document.getElementById('cal-grid');
   grid.innerHTML = '';
 
-  nomesDias.forEach(function(dia) {
+  nomesDias.forEach(function (dia) {
     const dow = document.createElement('div');
     dow.className = 'cal-dow';
     dow.textContent = dia;
@@ -119,11 +119,11 @@ async function renderizarCalendario() {
       String(calMesAtual + 1).padStart(2, '0') + '-' +
       String(dia).padStart(2, '0');
 
-    const aulasDoDia = aulas.filter(function(aula) {
+    const aulasDoDia = aulas.filter(function (aula) {
       return aula.data === dataStr;
     });
 
-    aulasDoDia.forEach(function(aula) {
+    aulasDoDia.forEach(function (aula) {
       const evento = document.createElement('div');
       evento.className = 'cal-evento ' + classeModalidade(aula.modalidade);
       evento.textContent = aula.nome.split(' ')[0] + ' – ' + aula.modalidade;
@@ -134,13 +134,13 @@ async function renderizarCalendario() {
   }
 }
 
-document.getElementById('cal-anterior').addEventListener('click', function() {
+document.getElementById('cal-anterior').addEventListener('click', function () {
   calMesAtual--;
   if (calMesAtual < 0) { calMesAtual = 11; calAnoAtual--; }
   renderizarCalendario();
 });
 
-document.getElementById('cal-proximo').addEventListener('click', function() {
+document.getElementById('cal-proximo').addEventListener('click', function () {
   calMesAtual++;
   if (calMesAtual > 11) { calMesAtual = 0; calAnoAtual++; }
   renderizarCalendario();
