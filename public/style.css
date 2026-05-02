@@ -760,8 +760,12 @@ body {
 
   /* Lista de próximas aulas ajustada */
   .aula-row {
-    grid-template-columns: 48px 1fr;
+    grid-template-columns: 52px 1fr auto;
     gap: 8px;
+  }
+
+  .aula-horario {
+    display: none;
   }
 
   .modalidade-badge,
