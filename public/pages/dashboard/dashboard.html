@@ -1,45 +1,41 @@
-<section id="page-dashboard" class="page active">
+<div class="page-header">
+  <div>
+    <div class="page-titulo">Dashboard</div>
+    <div class="page-subtitulo">Visão geral da academia</div>
+  </div>
+  <button class="btn-primary" onclick="navegarPara('experimentais')">+ Nova Experimental</button>
+</div>
 
-      <div class="page-header">
-          <div>
-                <div class="page-titulo">Dashboard</div>
-                      <div class="page-subtitulo">Aulas experimentais agendadas</div>
-                          </div>
-                              <button class="btn-primary" onclick="navegarPara('cadastro')">+ Nova Aula</button>
-                                </div>
+<div class="metric-grid">
+  <div class="metric-card">
+    <div class="metric-label">Aulas experimentais</div>
+    <div class="metric-valor" id="metric-total">0</div>
+    <div class="metric-sub">registradas</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-label">Próximas 7 dias</div>
+    <div class="metric-valor" id="metric-proximas">0</div>
+    <div class="metric-sub">agendadas</div>
+  </div>
+  <div class="metric-card">
+    <div class="metric-label">Professores</div>
+    <div class="metric-valor" id="metric-professores">0</div>
+    <div class="metric-sub">ativos</div>
+  </div>
+</div>
 
-                                  <div class="metric-grid">
-                                      <div class="metric-card">
-                                            <div class="metric-label">Total de aulas</div>
-                                                  <div class="metric-valor" id="metric-total">0</div>
-                                                        <div class="metric-sub">aulas registradas</div>
-                                                            </div>
-                                                                <div class="metric-card">
-                                                                      <div class="metric-label">Próximas 7 dias</div>
-                                                                            <div class="metric-valor" id="metric-proximas">0</div>
-                                                                                  <div class="metric-sub">aulas agendadas</div>
-                                                                                      </div>
-                                                                                          <div class="metric-card">
-                                                                                                <div class="metric-label">Professores</div>
-                                                                                                      <div class="metric-valor" id="metric-professores">0</div>
-                                                                                                            <div class="metric-sub">ativos na academia</div>
-                                                                                                                </div>
-                                                                                                                  </div>
+<div class="calendar-card">
+  <div class="cal-header">
+    <div class="cal-mes" id="cal-mes-titulo"></div>
+    <div class="cal-nav">
+      <button class="cal-nav-btn" id="cal-anterior">‹</button>
+      <button class="cal-nav-btn" id="cal-proximo">›</button>
+    </div>
+  </div>
+  <div class="cal-grid" id="cal-grid"></div>
+</div>
 
-                                                                                                                    <div class="calendar-card">
-                                                                                                                        <div class="cal-header">
-                                                                                                                              <div class="cal-mes" id="cal-mes-titulo"></div>
-                                                                                                                                    <div class="cal-nav">
-                                                                                                                                            <button class="cal-nav-btn" id="cal-anterior">‹</button>
-                                                                                                                                                    <button class="cal-nav-btn" id="cal-proximo">›</button>
-                                                                                                                                                          </div>
-                                                                                                                                                              </div>
-                                                                                                                                                                  <div class="cal-grid" id="cal-grid"></div>
-                                                                                                                                                                    </div>
-
-                                                                                                                                                                      <div class="upcoming-card">
-                                                                                                                                                                          <div class="section-header">Próximas Aulas</div>
-                                                                                                                                                                              <div id="lista-proximas"></div>
-                                                                                                                                                                                </div>
-
-                                                                                                                                                                                </section>
+<div class="upcoming-card">
+  <div class="section-header">Próximas Aulas Experimentais</div>
+  <div id="lista-proximas"></div>
+</div>

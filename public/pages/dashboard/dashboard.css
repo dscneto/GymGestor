@@ -1,0 +1,253 @@
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.page-titulo {
+  font-family: var(--fonte-titulo);
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--cor-texto);
+}
+
+.page-subtitulo {
+  font-size: 13px;
+  color: var(--cor-texto-fraco);
+  margin-top: 4px;
+}
+
+.btn-primary {
+  font-family: var(--fonte-titulo);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  background: var(--cor-destaque);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary:hover { opacity: 0.9; }
+
+/* MÉTRICAS */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.metric-card {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.metric-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--cor-texto-fraco);
+  margin-bottom: 8px;
+}
+
+.metric-valor {
+  font-family: var(--fonte-titulo);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--cor-texto);
+}
+
+.metric-sub {
+  font-size: 12px;
+  color: var(--cor-texto-fraco);
+  margin-top: 4px;
+}
+
+/* CALENDÁRIO */
+.calendar-card {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.cal-mes {
+  font-family: var(--fonte-titulo);
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cor-texto);
+}
+
+.cal-nav { display: flex; gap: 6px; }
+
+.cal-nav-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  background: var(--cor-fundo);
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--cor-texto);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cal-nav-btn:hover { background: var(--cor-borda); }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-dow {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cor-texto-fraco);
+  text-align: center;
+  padding: 4px 0;
+}
+
+.cal-dia {
+  min-height: 56px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--cor-texto-fraco);
+  cursor: pointer;
+  transition: border-color 0.12s;
+}
+
+.cal-dia:hover { border-color: var(--cor-destaque); }
+.cal-dia.vazio { border-color: transparent; background: none; cursor: default; }
+.cal-dia.hoje  { border-color: var(--cor-destaque); color: var(--cor-texto); font-weight: 700; }
+
+.cal-evento {
+  margin-top: 3px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.evento-bjj  { background: #B5D4F4; color: #0C447C; }
+.evento-mt   { background: #F5C4B3; color: #712B13; }
+.evento-kt   { background: #9FE1CB; color: #085041; }
+.evento-nj   { background: #D3D1C7; color: #2C2C2A; }
+.evento-kv   { background: #FAC775; color: #633806; }
+
+/* PRÓXIMAS AULAS */
+.upcoming-card {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.section-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--cor-borda);
+  font-family: var(--fonte-titulo);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cor-texto-fraco);
+}
+
+.aula-row {
+  display: grid;
+  grid-template-columns: 52px 1fr 100px 80px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 1.25rem;
+  border-bottom: 1px solid var(--cor-borda);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.aula-row:last-child { border-bottom: none; }
+.aula-row:hover { background: var(--cor-fundo); }
+
+.data-box {
+  background: var(--cor-fundo);
+  border-radius: 6px;
+  text-align: center;
+  padding: 6px 4px;
+}
+
+.data-num {
+  font-family: var(--fonte-titulo);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--cor-texto);
+}
+
+.data-dia {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cor-texto-fraco);
+}
+
+.aula-nome { font-size: 14px; font-weight: 600; margin-bottom: 2px; color: var(--cor-texto); }
+.aula-prof { font-size: 12px; color: var(--cor-texto-fraco); }
+
+.modalidade-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.aula-horario {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cor-texto-fraco);
+  text-align: right;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .metric-grid { grid-template-columns: 1fr; }
+  .page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .cal-dia { min-height: 36px; font-size: 11px; padding: 3px; }
+  .cal-evento { display: none; }
+  .aula-row { grid-template-columns: 48px 1fr auto; }
+  .aula-horario { display: none; }
+}
