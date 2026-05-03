@@ -2,40 +2,66 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Dojo System</title>
-        <link rel="stylesheet" href="style.css">
-          <link rel="icon" type="image/svg+xml" href="favicon.svg">
-          </head>
-          <body>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dojo System</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
 
-            <div id="app">
+  <div id="app">
 
-                <!-- SIDEBAR -->
-                    <aside id="sidebar">
-                          <div id="logo">
-                                  <h1>Dojo<br>System</h1>
-                                          <span>Aulas Experimentais</span>
-                                                </div>
-                                                      <nav>
-                                                              <a href="#" class="nav-item active" data-page="dashboard">Dashboard</a>
-                                                                      <a href="#" class="nav-item" data-page="cadastro">Nova Aula</a>
-                                                                              <a href="#" class="nav-item" data-page="lista">Alunos</a>
-                                                                                      <a href="#" class="nav-item" data-page="efetivos">Efetivos</a>
-                                                                                            </nav>
-                                                                                                </aside>
+    <!-- SIDEBAR -->
+    <aside id="sidebar">
+      <div id="logo">
+        <h1>Dojo<br>System</h1>
+        <span>Gestão da Academia</span>
+      </div>
 
-                                                                                                    <!-- CONTEÚDO PRINCIPAL -->
-                                                                                                        <main id="conteudo"></main>
+      <nav>
+        <!-- Dashboard -->
+        <div class="nav-grupo">
+          <a href="#" class="nav-item active" data-page="dashboard">
+            ◈ Dashboard
+          </a>
+        </div>
 
-                                                                                                          </div>
+        <!-- Experimentais -->
+        <div class="nav-grupo">
+          <div class="nav-grupo-titulo">Experimentais</div>
+          <a href="#" class="nav-item sub" data-page="lista">
+            ≡ Agendamentos
+          </a>
+          <a href="#" class="nav-item sub" data-page="experimentais">
+            ＋ Nova Experimental
+          </a>
+        </div>
 
-                                                                                                            <script src="js/utils.js"></script>
-                                                                                                              <script src="js/dashboard.js"></script>
-                                                                                                                <script src="js/cadastro.js"></script>
-                                                                                                                  <script src="js/lista.js"></script>
-                                                                                                                    <script src="js/efetivos.js"></script>
-                                                                                                                      <script src="js/nav.js"></script>
+        <!-- Matrículas -->
+        <div class="nav-grupo">
+          <div class="nav-grupo-titulo">Matrículas</div>
+          <a href="#" class="nav-item sub" data-page="matriculados">
+            ≡ Matriculados
+          </a>
+          <a href="#" class="nav-item sub" data-page="matriculas">
+            ＋ Nova Matrícula
+          </a>
+        </div>
+      </nav>
 
-                                                                                                                      </body>
-                                                                                                                      </html>
+      <!-- Toggle tema -->
+      <div id="toggle-tema" onclick="alternarTema()">
+        <span id="tema-label">☀ Tema Claro</span>
+      </div>
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main id="conteudo"></main>
+
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/nav.js"></script>
+
+</body>
+</html>

@@ -11,15 +11,26 @@ function classeModalidade(modalidade) {
 
 async function buscarAulas() {
   const resposta = await fetch('/api/aulas');
-  const aulas = await resposta.json();
-  return aulas;
+  return await resposta.json();
 }
 
-function navegarPara(pagina) {
-  const navItems = document.querySelectorAll('.nav-item');
-  const pages = document.querySelectorAll('.page');
-  navItems.forEach(function (item) { item.classList.remove('active'); });
-  pages.forEach(function (page) { page.classList.remove('active'); });
-  document.querySelector('[data-page="' + pagina + '"]').classList.add('active');
-  document.getElementById('page-' + pagina).classList.add('active');
+function alternarTema() {
+  const atual = document.body.getAttribute('data-tema');
+  if (atual === 'escuro') {
+    document.body.removeAttribute('data-tema');
+    document.getElementById('tema-label').textContent = '☀ Tema Claro';
+    localStorage.setItem('tema', 'claro');
+  } else {
+    document.body.setAttribute('data-tema', 'escuro');
+    document.getElementById('tema-label').textContent = '☾ Tema Escuro';
+    localStorage.setItem('tema', 'escuro');
+  }
 }
+
+// Aplica tema salvo ao carregar
+(function() {
+  const temaSalvo = localStorage.getItem('tema');
+  if (temaSalvo === 'escuro') {
+    document.body.setAttribute('data-tema', 'escuro');
+  }
+})();
