@@ -1,19 +1,30 @@
 const navItems = document.querySelectorAll('.nav-item');
-const pages = document.querySelectorAll('.page');
 
-navItems.forEach(function (link) {
-  link.addEventListener('click', function (evento) {
-    evento.preventDefault();
-    const paginaDestino = link.getAttribute('data-page');
+async function carregarPagina(nome) {
+  const resposta = await fetch('/pages/' + nome + '.html');
+    const html = await resposta.text();
+      document.getElementById('conteudo').innerHTML = html;
+      }
 
-    navItems.forEach(function (item) { item.classList.remove('active'); });
-    pages.forEach(function (page) { page.classList.remove('active'); });
+      async function navegarPara(pagina) {
+        navItems.forEach(function(item) { item.classList.remove('active'); });
+          const link = document.querySelector('[data-page="' + pagina + '"]');
+            if (link) link.classList.add('active');
+              await carregarPagina(pagina);
 
-    link.classList.add('active');
-    document.getElementById('page-' + paginaDestino).classList.add('active');
+                if (pagina === 'dashboard') carregarDashboard();
+                  if (pagina === 'cadastro')  {} 
+                    if (pagina === 'lista')     carregarLista();
+                      if (pagina === 'efetivos')  carregarEfetivos();
+                      }
 
-    if (paginaDestino === 'dashboard') carregarDashboard();
-    if (paginaDestino === 'lista') carregarLista();
-    if (paginaDestino === 'efetivos') carregarEfetivos();
-  });
-});
+                      navItems.forEach(function(link) {
+                        link.addEventListener('click', async function(evento) {
+                            evento.preventDefault();
+                                const pagina = link.getAttribute('data-page');
+                                    await navegarPara(pagina);
+                                      });
+                                      });
+
+                                      // Carrega o dashboard ao iniciar
+                                      navegarPara('dashboard');
