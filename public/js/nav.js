@@ -14,6 +14,9 @@ async function navegarPara(nomePagina) {
   const pagina = paginas[nomePagina];
   if (!pagina) return;
   
+  // Salva página atual na URL
+  window.location.hash = nomePagina;
+  
   // Atualiza menu ativo
   navItems.forEach(function(item) { item.classList.remove('active'); });
   const linkAtivo = document.querySelector('[data-page="' + nomePagina + '"]');
@@ -50,5 +53,6 @@ navItems.forEach(function(link) {
   });
 });
 
-// Inicia no dashboard
-navegarPara('dashboard');
+// Ao carregar, verifica se há página salva na URL
+const paginaInicial = window.location.hash.replace('#', '') || 'dashboard';
+navegarPara(paginaInicial);
