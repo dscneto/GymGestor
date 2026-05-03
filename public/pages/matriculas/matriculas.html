@@ -1,14 +1,155 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-</head>
-
-<body>
+<!-- FORMULÁRIO NOVA MATRÍCULA -->
+<div id="view-form">
+  <div class="page-header">
+    <div>
+      <div class="page-titulo" id="mat-titulo">Nova Matrícula</div>
+      <div class="page-subtitulo">Cadastro de aluno efetivo</div>
+    </div>
+  </div>
   
-</body>
+  <div class="form-card">
+    <form id="form-matricula">
+      <div class="form-grid">
+        
+        <div class="form-secao">● Dados do Aluno</div>
+        
+        <div class="form-group">
+          <label class="form-label">Nome completo</label>
+          <input class="form-input" id="mat-nome" type="text" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Data de Nascimento</label>
+          <input class="form-input" id="mat-nascimento" type="date" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">CPF</label>
+          <input class="form-input" id="mat-cpf" type="text" placeholder="000.000.000-00" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Telefone</label>
+          <input class="form-input" id="mat-telefone" type="text" placeholder="(00) 00000-0000">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Unidade</label>
+          <select class="form-select" id="mat-unidade" required onchange="atualizarHorarios()">
+            <option value="">Selecione a unidade</option>
+            <option>Candeias</option>
+            <option>Brasil</option>
+          </select>
+        </div>
+        
+        <hr class="form-divider">
+        <div class="form-secao">● Responsável</div>
+        
+        <div class="form-group">
+          <label class="form-label">Nome do responsável</label>
+          <input class="form-input" id="mat-resp-nome" type="text" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Contato do responsável</label>
+          <input class="form-input" id="mat-resp-contato" type="text" placeholder="(00) 00000-0000" required>
+        </div>
+        
+        <hr class="form-divider">
+        <div class="form-secao">● Matrícula</div>
+        
+        <div class="form-group">
+          <label class="form-label">Modalidade</label>
+          <select class="form-select" id="mat-modalidade" required onchange="atualizarHorarios()">
+            <option value="">Selecione a modalidade</option>
+            <option>Jiu-Jitsu</option>
+            <option>Muay Thai</option>
+            <option>Karatê</option>
+            <option>Ninjutsu</option>
+            <option>Krav Maga</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Professor</label>
+          <select class="form-select" id="mat-professor" required>
+            <option value="">Selecione o professor</option>
+            <option>Zenon Cruz</option>
+            <option>Kesiah Sales</option>
+            <option>Thaís Lebrão</option>
+            <option>ASDOKS</option>
+            <option>Jamerson</option>
+            <option>Ruan Lessa</option>
+            <option>João Paulo</option>
+            <option>Luciano Leal</option>
+            <option>Dyonatans</option>
+            <option>Sergio Doria</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Data de matrícula</label>
+          <input class="form-input" id="mat-data" type="date" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Vencimento (dia do mês)</label>
+          <input class="form-input" id="mat-vencimento" type="number" min="1" max="31" placeholder="Ex: 10" required>
+        </div>
+        
+        <div class="form-group full" id="container-horarios"></div>
+        
+      </div>
+      
+      <div class="form-acoes">
+        <button type="button" class="btn-ghost" onclick="navegarPara('matriculados')">Cancelar</button>
+        <button type="submit" class="btn-primary" id="mat-btn-salvar">Cadastrar Aluno</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-</html>
+<!-- LISTA DE MATRICULADOS -->
+<div id="view-lista" style="display:none;">
+  <div class="page-header">
+    <div>
+      <div class="page-titulo">Matriculados</div>
+      <div class="page-subtitulo" id="mat-subtitulo">0 alunos cadastrados</div>
+    </div>
+    <button class="btn-primary" onclick="navegarPara('matriculas')">+ Nova Matrícula</button>
+  </div>
+  
+  <div class="filtros-row">
+    <input class="input-busca" id="mat-busca" type="text" placeholder="Buscar aluno...">
+    <select class="filtro-select" id="mat-filtro-unidade">
+      <option value="">Todas as unidades</option>
+      <option>Candeias</option>
+      <option>Brasil</option>
+    </select>
+    <select class="filtro-select" id="mat-filtro-modalidade">
+      <option value="">Todas as modalidades</option>
+      <option>Jiu-Jitsu</option>
+      <option>Muay Thai</option>
+      <option>Karatê</option>
+      <option>Ninjutsu</option>
+      <option>Krav Maga</option>
+    </select>
+  </div>
+  
+  <div class="table-card">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Aluno</th>
+          <th>CPF</th>
+          <th>Telefone</th>
+          <th>Unidade</th>
+          <th>Modalidades</th>
+          <th>Responsável</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="tbody-matriculados"></tbody>
+    </table>
+  </div>
+</div>
