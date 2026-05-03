@@ -1,6 +1,5 @@
 const navItems = document.querySelectorAll('.nav-item');
 
-// Páginas e seus arquivos
 const paginas = {
   dashboard: { html: 'pages/dashboard/dashboard.html', css: 'pages/dashboard/dashboard.css', js: 'pages/dashboard/dashboard.js' },
   experimentais: { html: 'pages/experimentais/experimentais.html', css: 'pages/experimentais/experimentais.css', js: 'pages/experimentais/experimentais.js' },
@@ -28,14 +27,14 @@ async function navegarPara(nomePagina) {
     linkCSS.rel = 'stylesheet';
     document.head.appendChild(linkCSS);
   }
-  linkCSS.href = pagina.css;
+  linkCSS.href = pagina.css + '?v=' + Date.now();
   
-  // Carrega HTML da página
+  // Carrega HTML
   const respostaHTML = await fetch(pagina.html);
   const html = await respostaHTML.text();
   document.getElementById('conteudo').innerHTML = html;
   
-  // Remove JS anterior e carrega o novo
+  // Remove JS anterior e carrega novo
   if (jsAtual) jsAtual.remove();
   const script = document.createElement('script');
   script.src = pagina.js + '?v=' + Date.now();
@@ -47,10 +46,9 @@ async function navegarPara(nomePagina) {
 navItems.forEach(function(link) {
   link.addEventListener('click', function(evento) {
     evento.preventDefault();
-    const pagina = link.getAttribute('data-page');
-    navegarPara(pagina);
+    navegarPara(link.getAttribute('data-page'));
   });
 });
 
-// Carrega dashboard ao iniciar
+// Inicia no dashboard
 navegarPara('dashboard');
