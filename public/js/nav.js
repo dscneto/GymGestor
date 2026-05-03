@@ -10,12 +10,13 @@ async function carregarPagina(nome) {
         navItems.forEach(function(item) { item.classList.remove('active'); });
           const link = document.querySelector('[data-page="' + pagina + '"]');
             if (link) link.classList.add('active');
+
               await carregarPagina(pagina);
 
                 if (pagina === 'dashboard') carregarDashboard();
-                  if (pagina === 'cadastro')  {} 
-                    if (pagina === 'lista')     carregarLista();
-                      if (pagina === 'efetivos')  carregarEfetivos();
+                  if (pagina === 'lista')     { carregarLista(); registrarFiltros(); }
+                    if (pagina === 'cadastro')  registrarFormCadastro();
+                      if (pagina === 'efetivos')  { carregarEfetivos(); registrarFormEfetivo(); }
                       }
 
                       navItems.forEach(function(link) {
