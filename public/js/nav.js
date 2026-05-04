@@ -1,11 +1,11 @@
 const navItems = document.querySelectorAll('.nav-item');
 
 const paginas = {
-  dashboard: { html: 'pages/dashboard/dashboard.html', css: 'pages/dashboard/dashboard.css', js: 'pages/dashboard/dashboard.js' },
-  experimentais: { html: 'pages/experimentais/experimentais.html', css: 'pages/experimentais/experimentais.css', js: 'pages/experimentais/experimentais.js' },
-  lista: { html: 'pages/lista/lista.html', css: 'pages/lista/lista.css', js: 'pages/lista/lista.js' },
-  matriculas: { html: 'pages/matriculas/matriculas.html', css: 'pages/matriculas/matriculas.css', js: 'pages/matriculas/matriculas.js' },
-  matriculados: { html: 'pages/matriculas/matriculas.html', css: 'pages/matriculas/matriculas.css', js: 'pages/matriculas/matriculas.js' },
+  dashboard:    { html: 'pages/dashboard/dashboard.html',           css: 'pages/dashboard/dashboard.css',           js: 'pages/dashboard/dashboard.js'           },
+  experimentais:{ html: 'pages/experimentais/experimentais.html',   css: 'pages/experimentais/experimentais.css',   js: 'pages/experimentais/experimentais.js'   },
+  lista:        { html: 'pages/lista/lista.html',                   css: 'pages/lista/lista.css',                   js: 'pages/lista/lista.js'                   },
+  matriculas:   { html: 'pages/matriculas/matriculas.html',         css: 'pages/matriculas/matriculas.css',         js: 'pages/matriculas/matriculas.js'         },
+  matriculados: { html: 'pages/matriculados/matriculados.html',     css: 'pages/matriculados/matriculados.css',     js: 'pages/matriculados/matriculados.js'     },
 };
 
 let jsAtual = null;

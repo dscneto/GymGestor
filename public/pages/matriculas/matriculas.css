@@ -133,7 +133,6 @@
   border-top: 1px solid var(--cor-borda);
 }
 
-/* Horários */
 .horario-opcao {
   background: var(--cor-fundo);
   border: 1px solid var(--cor-borda);
@@ -173,118 +172,8 @@
   color: var(--cor-texto);
 }
 
-/* Tabela matriculados */
-.filtros-row {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-}
-
-.input-busca {
-  flex: 1;
-  min-width: 200px;
-  height: 38px;
-  padding: 0 12px;
-  border: 1px solid var(--cor-borda);
-  border-radius: 6px;
-  background: var(--cor-card);
-  font-family: var(--fonte-corpo);
-  font-size: 13px;
-  color: var(--cor-texto);
-  outline: none;
-}
-
-.input-busca:focus { border-color: var(--cor-destaque); }
-
-.filtro-select {
-  height: 38px;
-  padding: 0 10px;
-  border: 1px solid var(--cor-borda);
-  border-radius: 6px;
-  background: var(--cor-card);
-  font-family: var(--fonte-corpo);
-  font-size: 13px;
-  color: var(--cor-texto-fraco);
-  outline: none;
-}
-
-.table-card {
-  background: var(--cor-card);
-  border: 1px solid var(--cor-borda);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-
-.data-table thead th {
-  padding: 10px 14px;
-  text-align: left;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--cor-texto-fraco);
-  border-bottom: 1px solid var(--cor-borda);
-  background: var(--cor-fundo);
-  white-space: nowrap;
-}
-
-.data-table tbody td {
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--cor-borda);
-  color: var(--cor-texto);
-  vertical-align: middle;
-}
-
-.data-table tbody tr:last-child td { border-bottom: none; }
-.data-table tbody tr:hover td { background: var(--cor-fundo); }
-
-.td-fraco { color: var(--cor-texto-fraco) !important; }
-.td-nome  { font-weight: 600; }
-
-.modalidade-badge {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 6px;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.evento-bjj  { background: #B5D4F4; color: #0C447C; }
-.evento-mt   { background: #F5C4B3; color: #712B13; }
-.evento-kt   { background: #9FE1CB; color: #085041; }
-.evento-nj   { background: #D3D1C7; color: #2C2C2A; }
-.evento-kv   { background: #FAC775; color: #633806; }
-
-.btn-acao {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--cor-texto-fraco);
-  font-size: 13px;
-  padding: 4px 6px;
-  border-radius: 4px;
-  transition: all 0.12s;
-}
-
-.btn-acao:hover {
-  color: var(--cor-texto);
-  background: var(--cor-fundo);
-}
-
-/* RESPONSIVO */
 @media (max-width: 768px) {
   .form-grid { grid-template-columns: 1fr; }
   .form-group.full { grid-column: 1; }
   .page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .filtros-row { flex-direction: column; }
-  .input-busca, .filtro-select { width: 100%; }
-  .table-card { overflow-x: auto; }
 }

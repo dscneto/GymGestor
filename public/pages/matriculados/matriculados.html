@@ -1,0 +1,41 @@
+<div class="page-header">
+  <div>
+    <div class="page-titulo">Matriculados</div>
+    <div class="page-subtitulo" id="mat-subtitulo">0 alunos cadastrados</div>
+  </div>
+  <button class="btn-primary" onclick="navegarPara('matriculas')">+ Nova Matrícula</button>
+</div>
+
+<div class="filtros-row">
+  <input class="input-busca" id="mat-busca" type="text" placeholder="Buscar aluno...">
+  <select class="filtro-select" id="mat-filtro-unidade">
+    <option value="">Todas as unidades</option>
+    <option>Candeias</option>
+    <option>Brasil</option>
+  </select>
+  <select class="filtro-select" id="mat-filtro-modalidade">
+    <option value="">Todas as modalidades</option>
+    <option>Jiu-Jitsu</option>
+    <option>Muay Thai</option>
+    <option>Karatê</option>
+    <option>Ninjutsu</option>
+    <option>Krav Maga</option>
+  </select>
+</div>
+
+<div class="table-card">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Aluno</th>
+        <th>CPF</th>
+        <th>Telefone</th>
+        <th>Unidade</th>
+        <th>Modalidades</th>
+        <th>Responsável</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tbody-matriculados"></tbody>
+  </table>
+</div>
