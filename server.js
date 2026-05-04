@@ -146,6 +146,60 @@ app.get('/api/horarios', async function (req, res) {
   res.json(resultado.rows);
 });
 
+// Buscar pagamentos por mês e ano
+app.get('/api/pagamentos', async function(req, res) {
+  const { mes, ano } = req.query;
+  const resultado = await pool.query(`
+    SELECT p.*, m.vencimento, m.valor_mensalidade, m.modalidade, m.professor,
+           a.nome, a.unidade
+    FROM pagamentos p
+    JOIN matriculas m ON p.matricula_id = m.id
+    JOIN alunos a ON m.aluno_id = a.id
+    WHERE p.mes = $1 AND p.ano = $2
+    ORDER BY m.vencimento, a.nome
+  `, [mes, ano]);
+  res.json(resultado.rows);
+});
+
+// Buscar vencimentos do mês (cria pagamentos se não existirem)
+app.post('/api/pagamentos/gerar', async function(req, res) {
+  const { mes, ano } = req.body;
+
+  // Busca todas as matrículas ativas
+  const matriculas = await pool.query('SELECT * FROM matriculas');
+
+  for (const m of matriculas.rows) {
+    await pool.query(`
+      INSERT INTO pagamentos (matricula_id, mes, ano, status)
+      VALUES ($1, $2, $3, 'pendente')
+      ON CONFLICT (matricula_id, mes, ano) DO NOTHING
+    `, [m.id, mes, ano]);
+  }
+
+  // Retorna os pagamentos do mês
+  const resultado = await pool.query(`
+    SELECT p.*, m.vencimento, m.valor_mensalidade, m.modalidade, m.professor,
+           a.nome, a.unidade
+    FROM pagamentos p
+    JOIN matriculas m ON p.matricula_id = m.id
+    JOIN alunos a ON m.aluno_id = a.id
+    WHERE p.mes = $1 AND p.ano = $2
+    ORDER BY m.vencimento, a.nome
+  `, [mes, ano]);
+
+  res.json(resultado.rows);
+});
+
+// Atualizar status do pagamento
+app.put('/api/pagamentos/:id', async function(req, res) {
+  const { status, data_pagamento } = req.body;
+  await pool.query(
+    'UPDATE pagamentos SET status=$1, data_pagamento=$2 WHERE id=$3',
+    [status, data_pagamento, req.params.id]
+  );
+  res.json({ ok: true });
+});
+
 // Inicia o servidor
 const PORTA = process.env.PORT || 3000;
 app.listen(PORTA, async function () {
