@@ -76,6 +76,7 @@ document.getElementById('form-matricula').addEventListener('submit', async funct
 
   try {
     if (idMatriculaEditando) {
+      // Atualiza dados pessoais do aluno
       const res = await fetch('/api/alunos/' + idMatriculaEditando, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -83,10 +84,47 @@ document.getElementById('form-matricula').addEventListener('submit', async funct
       });
       const dados = await res.json();
       console.log('Resposta edição:', dados);
+
+      // Atualiza matrículas
+      const modalidade    = document.getElementById('mat-modalidade').value;
+      const dataMatricula = document.getElementById('mat-data').value;
+      const vencimento    = document.getElementById('mat-vencimento').value;
+      const container     = document.getElementById('container-horarios');
+      const opcoes        = container.querySelectorAll('.horario-opcao');
+
+      for (const opcao of opcoes) {
+        const horarioId  = opcao.querySelector('[name^="horario_id_"]').value;
+        const checkboxes = opcao.querySelectorAll('input[type="checkbox"]:checked');
+        const valorInput = opcao.querySelector('[name^="valor_"]');
+        const valor      = valorInput ? valorInput.value : null;
+
+        if (checkboxes.length === 0) continue;
+
+        const diasEscolhidos = Array.from(checkboxes).map(function(cb) {
+          return cb.value;
+        }).join(',');
+
+        await fetch('/api/matriculas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            aluno_id:          idMatriculaEditando,
+            modalidade:        modalidade,
+            professor:         document.getElementById('mat-professor').value,
+            data_matricula:    dataMatricula,
+            vencimento:        vencimento,
+            horario_id:        horarioId,
+            dias_escolhidos:   diasEscolhidos,
+            valor_mensalidade: valor
+          })
+        });
+      }
+
       alert('Aluno atualizado com sucesso!');
       idMatriculaEditando = null;
 
     } else {
+      // Cadastra novo aluno
       const res = await fetch('/api/alunos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

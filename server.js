@@ -112,12 +112,28 @@ app.delete('/api/alunos/:id', async function (req, res) {
 
 // Adicionar matrícula
 app.post('/api/matriculas', async function (req, res) {
-  const { aluno_id, modalidade, professor, data_matricula, vencimento } = req.body;
+  const { aluno_id, modalidade, professor, data_matricula, vencimento, horario_id, dias_escolhidos, valor_mensalidade } = req.body;
   const resultado = await pool.query(
-    'INSERT INTO matriculas (aluno_id, modalidade, professor, data_matricula, vencimento, status_pagamento) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
-    [aluno_id, modalidade, professor, data_matricula, vencimento, 'em dia']
+    'INSERT INTO matriculas (aluno_id, modalidade, professor, data_matricula, vencimento, status_pagamento, horario_id, dias_escolhidos, valor_mensalidade) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id',
+    [aluno_id, modalidade, professor, data_matricula, vencimento, 'em dia', horario_id, dias_escolhidos, valor_mensalidade]
   );
   res.json({ id: resultado.rows[0].id });
+});
+
+// Atualizar matrícula
+app.put('/api/matriculas/:id', async function (req, res) {
+  const { aluno_id, modalidade, professor, data_matricula, vencimento, horario_id, dias_escolhidos, valor_mensalidade, status_pagamento } = req.body;
+  await pool.query(
+    'UPDATE matriculas SET aluno_id=$1, modalidade=$2, professor=$3, data_matricula=$4, vencimento=$5, horario_id=$6, dias_escolhidos=$7, valor_mensalidade=$8, status_pagamento=$9 WHERE id=$10',
+    [aluno_id, modalidade, professor, data_matricula, vencimento, horario_id, dias_escolhidos, valor_mensalidade, status_pagamento, req.params.id]
+  );
+  res.json({ ok: true });
+});
+
+// Deletar matrícula
+app.delete('/api/matriculas/:id', async function (req, res) {
+  await pool.query('DELETE FROM matriculas WHERE id = $1', [req.params.id]);
+  res.json({ ok: true });
 });
 
 // Atualizar status de pagamento
@@ -127,12 +143,6 @@ app.put('/api/matriculas/:id', async function (req, res) {
     'UPDATE matriculas SET status_pagamento=$1 WHERE id=$2',
     [status_pagamento, req.params.id]
   );
-  res.json({ ok: true });
-});
-
-// Deletar matrícula
-app.delete('/api/matriculas/:id', async function (req, res) {
-  await pool.query('DELETE FROM matriculas WHERE id = $1', [req.params.id]);
   res.json({ ok: true });
 });
 
