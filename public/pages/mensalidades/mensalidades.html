@@ -1,0 +1,60 @@
+<div class="page-header">
+  <div>
+    <div class="page-titulo">Mensalidades</div>
+    <div class="page-subtitulo" id="mens-subtitulo">Controle de pagamentos</div>
+  </div>
+</div>
+
+<!-- CALENDÁRIO -->
+<div class="calendar-card">
+  <div class="cal-header">
+    <div class="cal-mes" id="mens-mes-titulo"></div>
+    <div class="cal-nav">
+      <button class="cal-nav-btn" id="mens-anterior">‹</button>
+      <button class="cal-nav-btn" id="mens-proximo">›</button>
+    </div>
+  </div>
+  <div class="cal-grid" id="mens-cal-grid"></div>
+</div>
+
+<!-- FILTROS -->
+<div class="filtros-row">
+  <input class="input-busca" id="mens-busca" type="text" placeholder="Buscar aluno...">
+  <select class="filtro-select" id="mens-filtro-unidade">
+    <option value="">Todas as unidades</option>
+    <option>Candeias</option>
+    <option>Brasil</option>
+  </select>
+  <select class="filtro-select" id="mens-filtro-modalidade">
+    <option value="">Todas as modalidades</option>
+    <option>Jiu-Jitsu</option>
+    <option>Muay Thai</option>
+    <option>Karatê</option>
+    <option>Ninjutsu</option>
+    <option>Krav Maga</option>
+  </select>
+  <select class="filtro-select" id="mens-filtro-status">
+    <option value="">Todos os status</option>
+    <option value="pendente">Pendente</option>
+    <option value="pago">Pago</option>
+  </select>
+</div>
+
+<!-- LISTA -->
+<div class="table-card">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Aluno</th>
+        <th>Modalidade</th>
+        <th>Professor</th>
+        <th>Unidade</th>
+        <th>Vencimento</th>
+        <th>Valor</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tbody-mensalidades"></tbody>
+  </table>
+</div>
