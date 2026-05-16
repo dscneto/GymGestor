@@ -4,8 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dojo System</title>
+
+  <!-- CSS global -->
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- CSS das páginas — pré-carregados mas desativados -->
+  <link rel="stylesheet" href="pages/dashboard/dashboard.css"         data-page="dashboard"     disabled>
+  <link rel="stylesheet" href="pages/experimentais/experimentais.css" data-page="experimentais" disabled>
+  <link rel="stylesheet" href="pages/lista/lista.css"                 data-page="lista"         disabled>
+  <link rel="stylesheet" href="pages/matriculas/matriculas.css"       data-page="matriculas"    disabled>
+  <link rel="stylesheet" href="pages/matriculados/matriculados.css"   data-page="matriculados"  disabled>
+  <link rel="stylesheet" href="pages/mensalidades/mensalidades.css"   data-page="mensalidades"  disabled>
 </head>
 <body>
 
@@ -19,14 +29,12 @@
       </div>
 
       <nav>
-        <!-- Dashboard -->
         <div class="nav-grupo">
           <a href="#" class="nav-item active" data-page="dashboard">
             ◈ Dashboard
           </a>
         </div>
 
-        <!-- Experimentais -->
         <div class="nav-grupo">
           <div class="nav-grupo-titulo">Experimentais</div>
           <a href="#" class="nav-item sub" data-page="lista">
@@ -37,7 +45,6 @@
           </a>
         </div>
 
-        <!-- Matrículas -->
         <div class="nav-grupo">
           <div class="nav-grupo-titulo">Matrículas</div>
           <a href="#" class="nav-item sub" data-page="matriculados">
@@ -52,7 +59,6 @@
         </div>
       </nav>
 
-      <!-- Toggle tema -->
       <div id="toggle-tema" onclick="alternarTema()">
         <span id="tema-label">☀ Tema Claro</span>
       </div>

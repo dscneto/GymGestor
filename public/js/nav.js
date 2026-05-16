@@ -1,43 +1,47 @@
 const navItems = document.querySelectorAll('.nav-item');
 
 const paginas = {
-  dashboard:    { html: 'pages/dashboard/dashboard.html',           css: 'pages/dashboard/dashboard.css',           js: 'pages/dashboard/dashboard.js'           },
-  experimentais:{ html: 'pages/experimentais/experimentais.html',   css: 'pages/experimentais/experimentais.css',   js: 'pages/experimentais/experimentais.js'   },
-  lista:        { html: 'pages/lista/lista.html',                   css: 'pages/lista/lista.css',                   js: 'pages/lista/lista.js'                   },
-  matriculas:   { html: 'pages/matriculas/matriculas.html',         css: 'pages/matriculas/matriculas.css',         js: 'pages/matriculas/matriculas.js'         },
-  matriculados: { html: 'pages/matriculados/matriculados.html',    css: 'pages/matriculados/matriculados.css',     js: 'pages/matriculados/matriculados.js'     },
-  mensalidades: { html: 'pages/mensalidades/mensalidades.html', css: 'pages/mensalidades/mensalidades.css', js: 'pages/mensalidades/mensalidades.js' },
+  dashboard:    { html: 'pages/dashboard/dashboard.html',         js: 'pages/dashboard/dashboard.js'         },
+  experimentais:{ html: 'pages/experimentais/experimentais.html', js: 'pages/experimentais/experimentais.js' },
+  lista:        { html: 'pages/lista/lista.html',                 js: 'pages/lista/lista.js'                 },
+  matriculas:   { html: 'pages/matriculas/matriculas.html',       js: 'pages/matriculas/matriculas.js'       },
+  matriculados: { html: 'pages/matriculados/matriculados.html',   js: 'pages/matriculados/matriculados.js'   },
+  mensalidades: { html: 'pages/mensalidades/mensalidades.html',   js: 'pages/mensalidades/mensalidades.js'   },
 };
 
 let jsAtual = null;
 
+function ativarCSS(nomePagina) {
+  // Desativa todos os CSS de páginas
+  document.querySelectorAll('link[data-page]').forEach(function(link) {
+    link.disabled = true;
+  });
+
+  // Ativa só o CSS da página atual
+  const cssAtivo = document.querySelector('link[data-page="' + nomePagina + '"]');
+  if (cssAtivo) cssAtivo.disabled = false;
+}
+
 async function navegarPara(nomePagina) {
   const pagina = paginas[nomePagina];
   if (!pagina) return;
-  
-  // Salva página atual na URL
+
+  // Salva página na URL
   window.location.hash = nomePagina;
-  
+
   // Atualiza menu ativo
   navItems.forEach(function(item) { item.classList.remove('active'); });
   const linkAtivo = document.querySelector('[data-page="' + nomePagina + '"]');
   if (linkAtivo) linkAtivo.classList.add('active');
-  
-  // Carrega CSS da página
-  let linkCSS = document.getElementById('css-pagina');
-  if (!linkCSS) {
-    linkCSS = document.createElement('link');
-    linkCSS.id = 'css-pagina';
-    linkCSS.rel = 'stylesheet';
-    document.head.appendChild(linkCSS);
-  }
-  linkCSS.href = pagina.css + '?v=' + Date.now();
-  
+
+  // Ativa CSS da página ANTES de carregar o HTML
+  ativarCSS(nomePagina);
+
   // Carrega HTML
   const respostaHTML = await fetch(pagina.html);
   const html = await respostaHTML.text();
   document.getElementById('conteudo').innerHTML = html;
-  
+
   // Remove JS anterior e carrega novo
   if (jsAtual) jsAtual.remove();
   const script = document.createElement('script');
@@ -54,6 +58,6 @@ navItems.forEach(function(link) {
   });
 });
 
-// Ao carregar, verifica se há página salva na URL
+// Carrega página salva na URL ou dashboard
 const paginaInicial = window.location.hash.replace('#', '') || 'dashboard';
 navegarPara(paginaInicial);
