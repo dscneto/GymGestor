@@ -58,6 +58,43 @@ navItems.forEach(function(link) {
   });
 });
 
+async function navegarPara(nomePagina) {
+  const pagina = paginas[nomePagina];
+  if (!pagina) return;
+
+  // Mostra loading
+  document.getElementById('loading').classList.remove('oculto');
+
+  // Salva página na URL
+  window.location.hash = nomePagina;
+
+  // Atualiza menu ativo
+  navItems.forEach(function(item) { item.classList.remove('active'); });
+  const linkAtivo = document.querySelector('[data-page="' + nomePagina + '"]');
+  if (linkAtivo) linkAtivo.classList.add('active');
+
+  // Ativa CSS da página ANTES de carregar o HTML
+  ativarCSS(nomePagina);
+
+  // Carrega HTML
+  const respostaHTML = await fetch(pagina.html);
+  const html = await respostaHTML.text();
+  document.getElementById('conteudo').innerHTML = html;
+
+  // Remove JS anterior e carrega novo
+  if (jsAtual) jsAtual.remove();
+  const script = document.createElement('script');
+  script.src = pagina.js + '?v=' + Date.now();
+
+  // Esconde loading quando JS terminar de carregar
+  script.onload = function() {
+    document.getElementById('loading').classList.add('oculto');
+  };
+
+  document.body.appendChild(script);
+  jsAtual = script;
+}
+
 // Carrega página salva na URL ou dashboard
 const paginaInicial = window.location.hash.replace('#', '') || 'dashboard';
 navegarPara(paginaInicial);
