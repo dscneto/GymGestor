@@ -1,19 +1,121 @@
 let idMatriculaEditando = null;
 
-// Preenche formulário se vier de edição
-if (window._matriculaEditando) {
-  const aluno = window._matriculaEditando;
-  idMatriculaEditando = aluno.id;
-  document.getElementById('mat-nome').value         = aluno.nome;
-  document.getElementById('mat-nascimento').value   = aluno.data_nascimento;
-  document.getElementById('mat-cpf').value          = aluno.cpf;
-  document.getElementById('mat-telefone').value     = aluno.telefone || '';
-  document.getElementById('mat-unidade').value      = aluno.unidade;
-  document.getElementById('mat-resp-nome').value    = aluno.nome_responsavel || '';
-  document.getElementById('mat-resp-contato').value = aluno.contato_responsavel || '';
-  document.getElementById('mat-titulo').textContent     = 'Editar Matrícula';
-  document.getElementById('mat-btn-salvar').textContent = 'Salvar Alterações';
-  window._matriculaEditando = null;
+async function carregarProfessores(seletorId) {
+  const resp = await fetch('/api/professores');
+  const professores = await resp.json();
+  const select = document.getElementById(seletorId);
+
+  select.innerHTML = '<option value="">Selecione o professor</option>';
+  professores.forEach(function(p) {
+    const option = document.createElement('option');
+    option.value = p.id;
+    option.textContent = p.nome;
+    select.appendChild(option);
+  });
+}
+
+async function iniciarMatriculas() {
+  await carregarProfessores('mat-professor');
+
+  // Preenche formulário se vier de edição
+  if (window._matriculaEditando) {
+    const aluno = window._matriculaEditando;
+    idMatriculaEditando = aluno.id;
+    document.getElementById('mat-nome').value         = aluno.nome;
+    document.getElementById('mat-nascimento').value   = aluno.data_nascimento;
+    document.getElementById('mat-cpf').value          = aluno.cpf;
+    document.getElementById('mat-telefone').value     = aluno.telefone || '';
+    document.getElementById('mat-unidade').value      = aluno.unidade;
+    document.getElementById('mat-resp-nome').value    = aluno.nome_responsavel || '';
+    document.getElementById('mat-resp-contato').value = aluno.contato_responsavel || '';
+    document.getElementById('mat-titulo').textContent     = 'Editar Matrícula';
+    document.getElementById('mat-btn-salvar').textContent = 'Salvar Alterações';
+    window._matriculaEditando = null;
+  }
+
+  document.getElementById('form-matricula').addEventListener('submit', async function(evento) {
+    evento.preventDefault();
+
+    const aluno = {
+      nome:                document.getElementById('mat-nome').value,
+      data_nascimento:     document.getElementById('mat-nascimento').value,
+      cpf:                 document.getElementById('mat-cpf').value,
+      telefone:            document.getElementById('mat-telefone').value,
+      unidade:             document.getElementById('mat-unidade').value,
+      nome_responsavel:    document.getElementById('mat-resp-nome').value,
+      contato_responsavel: document.getElementById('mat-resp-contato').value
+    };
+
+    try {
+      if (idMatriculaEditando) {
+        await fetch('/api/alunos/' + idMatriculaEditando, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(aluno)
+        });
+        alert('Aluno atualizado com sucesso!');
+        idMatriculaEditando = null;
+
+      } else {
+        const res = await fetch('/api/alunos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(aluno)
+        });
+
+        const dados = await res.json();
+
+        if (!dados.id) {
+          alert('Erro ao cadastrar: ' + JSON.stringify(dados));
+          return;
+        }
+
+        const id            = dados.id;
+        const modalidade    = document.getElementById('mat-modalidade').value;
+        const professorId   = document.getElementById('mat-professor').value;
+        const dataMatricula = document.getElementById('mat-data').value;
+        const vencimento    = document.getElementById('mat-vencimento').value;
+        const container     = document.getElementById('container-horarios');
+        const opcoes        = container.querySelectorAll('.horario-opcao');
+
+        for (const opcao of opcoes) {
+          const horarioId  = opcao.querySelector('[name^="horario_id_"]').value;
+          const checkboxes = opcao.querySelectorAll('input[type="checkbox"]:checked');
+          const valorInput = opcao.querySelector('[name^="valor_"]');
+          const valor      = valorInput ? valorInput.value : null;
+
+          if (checkboxes.length === 0) continue;
+
+          const diasEscolhidos = Array.from(checkboxes).map(function(cb) {
+            return cb.value;
+          }).join(',');
+
+          await fetch('/api/matriculas', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              aluno_id:          id,
+              professor_id:      professorId,
+              modalidade:        modalidade,
+              data_matricula:    dataMatricula,
+              vencimento:        vencimento,
+              horario_id:        horarioId,
+              dias_escolhidos:   diasEscolhidos,
+              valor_mensalidade: valor
+            })
+          });
+        }
+
+        alert('Aluno matriculado com sucesso!');
+      }
+
+      navegarPara('matriculados');
+
+    } catch (erro) {
+      alert('Erro: ' + erro.message);
+      console.error('Erro ao salvar:', erro);
+    }
+  });
 }
 
 async function atualizarHorarios() {
@@ -61,129 +163,4 @@ async function atualizarHorarios() {
   }).join('');
 }
 
-document.getElementById('form-matricula').addEventListener('submit', async function(evento) {
-  evento.preventDefault();
-
-  const aluno = {
-    nome:                document.getElementById('mat-nome').value,
-    data_nascimento:     document.getElementById('mat-nascimento').value,
-    cpf:                 document.getElementById('mat-cpf').value,
-    telefone:            document.getElementById('mat-telefone').value,
-    unidade:             document.getElementById('mat-unidade').value,
-    nome_responsavel:    document.getElementById('mat-resp-nome').value,
-    contato_responsavel: document.getElementById('mat-resp-contato').value
-  };
-
-  try {
-    if (idMatriculaEditando) {
-      // Atualiza dados pessoais do aluno
-      const res = await fetch('/api/alunos/' + idMatriculaEditando, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(aluno)
-      });
-      const dados = await res.json();
-      console.log('Resposta edição:', dados);
-
-      // Atualiza matrículas
-      const modalidade    = document.getElementById('mat-modalidade').value;
-      const dataMatricula = document.getElementById('mat-data').value;
-      const vencimento    = document.getElementById('mat-vencimento').value;
-      const container     = document.getElementById('container-horarios');
-      const opcoes        = container.querySelectorAll('.horario-opcao');
-
-      for (const opcao of opcoes) {
-        const horarioId  = opcao.querySelector('[name^="horario_id_"]').value;
-        const checkboxes = opcao.querySelectorAll('input[type="checkbox"]:checked');
-        const valorInput = opcao.querySelector('[name^="valor_"]');
-        const valor      = valorInput ? valorInput.value : null;
-
-        if (checkboxes.length === 0) continue;
-
-        const diasEscolhidos = Array.from(checkboxes).map(function(cb) {
-          return cb.value;
-        }).join(',');
-
-        await fetch('/api/matriculas', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            aluno_id:          idMatriculaEditando,
-            modalidade:        modalidade,
-            professor:         document.getElementById('mat-professor').value,
-            data_matricula:    dataMatricula,
-            vencimento:        vencimento,
-            horario_id:        horarioId,
-            dias_escolhidos:   diasEscolhidos,
-            valor_mensalidade: valor
-          })
-        });
-      }
-
-      alert('Aluno atualizado com sucesso!');
-      idMatriculaEditando = null;
-
-    } else {
-      // Cadastra novo aluno
-      const res = await fetch('/api/alunos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(aluno)
-      });
-
-      const dados = await res.json();
-      console.log('Resposta cadastro:', dados);
-
-      if (!dados.id) {
-        alert('Erro ao cadastrar: ' + JSON.stringify(dados));
-        return;
-      }
-
-      const id = dados.id;
-      const modalidade    = document.getElementById('mat-modalidade').value;
-      const dataMatricula = document.getElementById('mat-data').value;
-      const vencimento    = document.getElementById('mat-vencimento').value;
-      const container     = document.getElementById('container-horarios');
-      const opcoes        = container.querySelectorAll('.horario-opcao');
-
-      for (const opcao of opcoes) {
-        const horarioId  = opcao.querySelector('[name^="horario_id_"]').value;
-        const checkboxes = opcao.querySelectorAll('input[type="checkbox"]:checked');
-        const valorInput = opcao.querySelector('[name^="valor_"]');
-        const valor      = valorInput ? valorInput.value : null;
-
-        if (checkboxes.length === 0) continue;
-
-        const diasEscolhidos = Array.from(checkboxes).map(function(cb) {
-          return cb.value;
-        }).join(',');
-
-        const resMatricula = await fetch('/api/matriculas', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            aluno_id:          id,
-            modalidade:        modalidade,
-            professor:         document.getElementById('mat-professor').value,
-            data_matricula:    dataMatricula,
-            vencimento:        vencimento,
-            horario_id:        horarioId,
-            dias_escolhidos:   diasEscolhidos,
-            valor_mensalidade: valor
-          })
-        });
-
-        const dadosMatricula = await resMatricula.json();
-        console.log('Resposta matrícula:', dadosMatricula);
-      }
-
-      alert('Aluno matriculado com sucesso!');
-    }
-
-    navegarPara('matriculados');
-
-  } catch (erro) {
-    alert('Erro: ' + erro.message);
-    console.error('Erro ao salvar:', erro);
-  }
-});
+iniciarMatriculas();
