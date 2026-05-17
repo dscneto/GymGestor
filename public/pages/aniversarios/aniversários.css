@@ -1,0 +1,131 @@
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.page-titulo {
+  font-family: var(--fonte-titulo);
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--cor-texto);
+}
+
+.page-subtitulo {
+  font-size: 13px;
+  color: var(--cor-texto-fraco);
+  margin-top: 4px;
+}
+
+.filtros-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filtro-select {
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  background: var(--cor-card);
+  font-family: var(--fonte-corpo);
+  font-size: 13px;
+  color: var(--cor-texto-fraco);
+  outline: none;
+}
+
+.section-titulo {
+  font-family: var(--fonte-titulo);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cor-texto-fraco);
+  margin-bottom: 1rem;
+}
+
+.aniv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.aniv-card {
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid transparent;
+}
+
+/* PROFESSORES */
+.aniv-prof-bjj  { background: #1e3a5f; color: #a8d4ff; border-color: #2a4f7a; }
+.aniv-prof-mt   { background: #3b1f5e; color: #c9a8ff; border-color: #502a80; }
+.aniv-prof-kt   { background: #1a3a5c; color: #90c4f0; border-color: #25507a; }
+.aniv-prof-nj   { background: #1f2d3d; color: #8aa5bf; border-color: #2a3d52; }
+.aniv-prof-kv   { background: #1a3550; color: #7ab5d8; border-color: #254a6a; }
+
+/* ALUNOS */
+.aniv-aluno-bjj { background: #5c2200; color: #ffb380; border-color: #7a3000; }
+.aniv-aluno-mt  { background: #5c1a1a; color: #ffaaaa; border-color: #7a2525; }
+.aniv-aluno-kt  { background: #1a4020; color: #80e090; border-color: #255530; }
+.aniv-aluno-nj  { background: #2d3d2a; color: #a0b890; border-color: #3d5238; }
+.aniv-aluno-kv  { background: #4a3d00; color: #f0d060; border-color: #635200; }
+
+.aniv-tipo {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+}
+
+.aniv-nome {
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--fonte-titulo);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.aniv-data {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.aniv-modalidade {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.aniv-hoje {
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.15);
+  padding: 2px 8px;
+  border-radius: 10px;
+  align-self: flex-start;
+}
+
+.vazio {
+  color: var(--cor-texto-fraco);
+  font-size: 13px;
+  padding: 1rem 0;
+}
+
+@media (max-width: 768px) {
+  .aniv-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .filtros-row { flex-direction: column; }
+  .filtro-select { width: 100%; }
+}

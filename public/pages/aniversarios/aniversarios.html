@@ -1,14 +1,48 @@
-<!DOCTYPE html>
-<html>
+<div class="page-header">
+  <div>
+    <div class="page-titulo">Aniversários</div>
+    <div class="page-subtitulo" id="aniv-subtitulo">Carregando...</div>
+  </div>
+</div>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-</head>
+<!-- FILTROS -->
+<div class="filtros-row">
+  <select class="filtro-select" id="aniv-filtro-mes">
+    <option value="0">Todos os meses</option>
+    <option value="1">Janeiro</option>
+    <option value="2">Fevereiro</option>
+    <option value="3">Março</option>
+    <option value="4">Abril</option>
+    <option value="5">Maio</option>
+    <option value="6">Junho</option>
+    <option value="7">Julho</option>
+    <option value="8">Agosto</option>
+    <option value="9">Setembro</option>
+    <option value="10">Outubro</option>
+    <option value="11">Novembro</option>
+    <option value="12">Dezembro</option>
+  </select>
+  <select class="filtro-select" id="aniv-filtro-tipo">
+    <option value="">Todos</option>
+    <option value="professor">Professores</option>
+    <option value="aluno">Alunos</option>
+  </select>
+  <select class="filtro-select" id="aniv-filtro-modalidade">
+    <option value="">Todas as modalidades</option>
+    <option>Jiu-Jitsu</option>
+    <option>Muay Thai</option>
+    <option>Karatê</option>
+    <option>Ninjutsu</option>
+    <option>Krav Maga</option>
+  </select>
+</div>
 
-<body>
-  
-</body>
+<!-- ESTE MÊS -->
+<div id="aniv-este-mes" style="display:none;">
+  <div class="section-titulo">🎂 Aniversários este mês</div>
+  <div id="lista-este-mes" class="aniv-grid"></div>
+</div>
 
-</html>
+<!-- LISTA COMPLETA -->
+<div class="section-titulo" style="margin-top:1.5rem;">Todos os aniversários</div>
+<div id="lista-aniversarios" class="aniv-grid"></div>
