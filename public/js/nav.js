@@ -7,6 +7,9 @@ const paginas = {
   matriculas:   { html: 'pages/matriculas/matriculas.html',       js: 'pages/matriculas/matriculas.js'       },
   matriculados: { html: 'pages/matriculados/matriculados.html',   js: 'pages/matriculados/matriculados.js'   },
   mensalidades: { html: 'pages/mensalidades/mensalidades.html',   js: 'pages/mensalidades/mensalidades.js'   },
+  professores:  { html: 'pages/professores/professores.html',     js: 'pages/professores/professores.js'     },
+  eventos:      { html: 'pages/eventos/eventos.html',             js: 'pages/eventos/eventos.js'             },
+  aniversarios: { html: 'pages/aniversarios/aniversarios.html',   js: 'pages/aniversarios/aniversarios.js'   },
 };
 
 let jsAtual = null;

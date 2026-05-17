@@ -16,6 +16,9 @@
   <link rel="stylesheet" href="pages/matriculas/matriculas.css"       data-page="matriculas"    disabled>
   <link rel="stylesheet" href="pages/matriculados/matriculados.css"   data-page="matriculados"  disabled>
   <link rel="stylesheet" href="pages/mensalidades/mensalidades.css"   data-page="mensalidades"  disabled>
+  <link rel="stylesheet" href="pages/professores/professores.css"   data-page="professores"  disabled>
+<link rel="stylesheet" href="pages/eventos/eventos.css"           data-page="eventos"      disabled>
+<link rel="stylesheet" href="pages/aniversarios/aniversarios.css" data-page="aniversarios" disabled>
 </head>
 <body>
 
@@ -32,36 +35,53 @@
         <span>Gestão da Academia</span>
       </div>
 
-      <nav>
-        <div class="nav-grupo">
-          <a href="#" class="nav-item active" data-page="dashboard">
-            ◈ Dashboard
-          </a>
-        </div>
+<nav>
+  <!-- Dashboard -->
+  <div class="nav-grupo">
+    <a href="#" class="nav-item active" data-page="dashboard">
+      ◈ Dashboard
+    </a>
+  </div>
 
-        <div class="nav-grupo">
-          <div class="nav-grupo-titulo">Experimentais</div>
-          <a href="#" class="nav-item sub" data-page="lista">
-            ≡ Agendamentos
-          </a>
-          <a href="#" class="nav-item sub" data-page="experimentais">
-            ＋ Nova Experimental
-          </a>
-        </div>
+  <!-- Experimentais -->
+  <div class="nav-grupo">
+    <div class="nav-grupo-titulo">Experimentais</div>
+    <a href="#" class="nav-item sub" data-page="lista">
+      ≡ Agendamentos
+    </a>
+    <a href="#" class="nav-item sub" data-page="experimentais">
+      ＋ Nova Experimental
+    </a>
+  </div>
 
-        <div class="nav-grupo">
-          <div class="nav-grupo-titulo">Matrículas</div>
-          <a href="#" class="nav-item sub" data-page="matriculados">
-            ≡ Matriculados
-          </a>
-          <a href="#" class="nav-item sub" data-page="matriculas">
-            ＋ Nova Matrícula
-          </a>
-          <a href="#" class="nav-item sub" data-page="mensalidades">
-            ◷ Mensalidades
-          </a>
-        </div>
-      </nav>
+  <!-- Matrículas -->
+  <div class="nav-grupo">
+    <div class="nav-grupo-titulo">Matrículas</div>
+    <a href="#" class="nav-item sub" data-page="matriculados">
+      ≡ Matriculados
+    </a>
+    <a href="#" class="nav-item sub" data-page="matriculas">
+      ＋ Nova Matrícula
+    </a>
+    <a href="#" class="nav-item sub" data-page="mensalidades">
+      ◷ Mensalidades
+    </a>
+  </div>
+
+  <!-- Academia -->
+  <div class="nav-grupo">
+    <div class="nav-grupo-titulo">Academia</div>
+    <a href="#" class="nav-item sub" data-page="professores">
+      ≡ Professores
+    </a>
+    <a href="#" class="nav-item sub" data-page="eventos">
+      ◈ Eventos
+    </a>
+    <a href="#" class="nav-item sub" data-page="aniversarios">
+      ◈ Aniversários
+    </a>
+  </div>
+</nav>
 
       <div id="toggle-tema" onclick="alternarTema()">
         <span id="tema-label">☀ Tema Claro</span>
