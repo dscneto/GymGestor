@@ -1,0 +1,74 @@
+<div class="page-header">
+  <div>
+    <div class="page-titulo">Professores</div>
+    <div class="page-subtitulo" id="prof-subtitulo">0 professores cadastrados</div>
+  </div>
+  <button class="btn-primary" onclick="abrirFormProfessor()">+ Novo Professor</button>
+</div>
+
+<div class="table-card">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Modalidades</th>
+        <th>Unidades</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tbody-professores"></tbody>
+  </table>
+</div>
+
+<!-- FORMULÁRIO -->
+<div id="modal-professor" style="display:none;">
+  <div class="form-card" style="margin-top:1.5rem;">
+    <form id="form-professor">
+      <div class="form-grid">
+
+        <div class="form-secao" id="prof-form-titulo">● Novo Professor</div>
+
+        <div class="form-group">
+          <label class="form-label">Nome completo</label>
+          <input class="form-input" id="prof-nome" type="text" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Telefone</label>
+          <input class="form-input" id="prof-telefone" type="text" placeholder="(00) 00000-0000">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Data de Nascimento</label>
+          <input class="form-input" id="prof-nascimento" type="date">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Unidades</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="unidade" value="Candeias"> Candeias</label>
+            <label><input type="checkbox" name="unidade" value="Brasil"> Brasil</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Modalidades</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="modalidade" value="Jiu-Jitsu"> Jiu-Jitsu</label>
+            <label><input type="checkbox" name="modalidade" value="Muay Thai"> Muay Thai</label>
+            <label><input type="checkbox" name="modalidade" value="Karatê"> Karatê</label>
+            <label><input type="checkbox" name="modalidade" value="Ninjutsu"> Ninjutsu</label>
+            <label><input type="checkbox" name="modalidade" value="Krav Maga"> Krav Maga</label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="form-acoes">
+        <button type="button" class="btn-ghost" onclick="fecharFormProfessor()">Cancelar</button>
+        <button type="submit" class="btn-primary" id="prof-btn-salvar">Cadastrar Professor</button>
+      </div>
+    </form>
+  </div>
+</div>
