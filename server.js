@@ -113,79 +113,91 @@ app.get('/api/horarios', async function(req, res) {
 // ================================
 
 app.get('/api/alunos', async function(req, res) {
-  const resultado = await pool.query('SELECT * FROM alunos ORDER BY nome');
-  res.json(resultado.rows);
-});
-
-app.get('/api/alunos/:id', async function(req, res) {
-  const aluno = await pool.query('SELECT * FROM alunos WHERE id = $1', [req.params.id]);
-  const matriculas = await pool.query(`
-    SELECT m.*, p.nome AS nome_professor
-    FROM matriculas m
-    LEFT JOIN professores p ON m.professor_id = p.id
-    WHERE m.aluno_id = $1
-  `, [req.params.id]);
-  res.json({ ...aluno.rows[0], matriculas: matriculas.rows });
-});
-
-app.post('/api/alunos', async function(req, res) {
-  const { nome, data_nascimento, cpf, telefone, unidade, nome_responsavel, contato_responsavel } = req.body;
-  const resultado = await pool.query(
-    'INSERT INTO alunos (nome, data_nascimento, cpf, telefone, unidade, nome_responsavel, contato_responsavel) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
-    [nome, data_nascimento, cpf, telefone, unidade, nome_responsavel, contato_responsavel]
-  );
-  res.json({ id: resultado.rows[0].id });
-});
-
-app.put('/api/alunos/:id', async function(req, res) {
-  const { nome, data_nascimento, cpf, telefone, unidade, nome_responsavel, contato_responsavel } = req.body;
-  await pool.query(
-    'UPDATE alunos SET nome=$1, data_nascimento=$2, cpf=$3, telefone=$4, unidade=$5, nome_responsavel=$6, contato_responsavel=$7 WHERE id=$8',
-    [nome, data_nascimento, cpf, telefone, unidade, nome_responsavel, contato_responsavel, req.params.id]
-  );
-  res.json({ ok: true });
-});
-
-app.delete('/api/alunos/:id', async function(req, res) {
-  await pool.query('DELETE FROM alunos WHERE id = $1', [req.params.id]);
-  res.json({ ok: true });
-});
-
-// ================================
-// MATRÍCULAS
-// ================================
-
-app.get('/api/matriculas', async function(req, res) {
   const resultado = await pool.query(`
-    SELECT m.*, a.nome, a.unidade, p.nome AS nome_professor
-    FROM matriculas m
-    JOIN alunos a ON m.aluno_id = a.id
-    LEFT JOIN professores p ON m.professor_id = p.id
+    SELECT a.*, p.nome AS nome_professor
+    FROM alunos a
+    LEFT JOIN professores p ON a.professor_id = p.id
     ORDER BY a.nome
   `);
   res.json(resultado.rows);
 });
 
-app.post('/api/matriculas', async function(req, res) {
-  const { aluno_id, professor_id, modalidade, data_matricula, vencimento, valor_mensalidade, horario_id, dias_escolhidos } = req.body;
-  const resultado = await pool.query(
-    'INSERT INTO matriculas (aluno_id, professor_id, modalidade, data_matricula, vencimento, valor_mensalidade, horario_id, dias_escolhidos, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id',
-    [aluno_id, professor_id, modalidade, data_matricula, vencimento, valor_mensalidade, horario_id, dias_escolhidos, 'ativo']
-  );
+app.get('/api/alunos/:id', async function(req, res) {
+  const resultado = await pool.query(`
+    SELECT a.*, p.nome AS nome_professor
+    FROM alunos a
+    LEFT JOIN professores p ON a.professor_id = p.id
+    WHERE a.id = $1
+  `, [req.params.id]);
+  res.json(resultado.rows[0]);
+});
+
+app.post('/api/alunos', async function(req, res) {
+  const {
+    nome, data_nascimento, cpf, telefone, unidade,
+    rua, numero, bairro, cidade,
+    nome_responsavel, contato_responsavel,
+    professor_id, modalidade, data_matricula,
+    vencimento, valor_mensalidade, horario_id,
+    dias_escolhidos, status, observacoes
+  } = req.body;
+
+  const resultado = await pool.query(`
+    INSERT INTO alunos (
+      nome, data_nascimento, cpf, telefone, unidade,
+      rua, numero, bairro, cidade,
+      nome_responsavel, contato_responsavel,
+      professor_id, modalidade, data_matricula,
+      vencimento, valor_mensalidade, horario_id,
+      dias_escolhidos, status, observacoes
+    ) VALUES (
+      $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,
+      $11,$12,$13,$14,$15,$16,$17,$18,$19,$20
+    ) RETURNING id
+  `, [
+    nome, data_nascimento, cpf, telefone, unidade,
+    rua, numero, bairro, cidade,
+    nome_responsavel, contato_responsavel,
+    professor_id, modalidade, data_matricula,
+    vencimento, valor_mensalidade, horario_id,
+    dias_escolhidos, status || 'ativo', observacoes
+  ]);
   res.json({ id: resultado.rows[0].id });
 });
 
-app.put('/api/matriculas/:id', async function(req, res) {
-  const { professor_id, modalidade, data_matricula, vencimento, valor_mensalidade, horario_id, dias_escolhidos, status } = req.body;
-  await pool.query(
-    'UPDATE matriculas SET professor_id=$1, modalidade=$2, data_matricula=$3, vencimento=$4, valor_mensalidade=$5, horario_id=$6, dias_escolhidos=$7, status=$8 WHERE id=$9',
-    [professor_id, modalidade, data_matricula, vencimento, valor_mensalidade, horario_id, dias_escolhidos, status, req.params.id]
-  );
+app.put('/api/alunos/:id', async function(req, res) {
+  const {
+    nome, data_nascimento, cpf, telefone, unidade,
+    rua, numero, bairro, cidade,
+    nome_responsavel, contato_responsavel,
+    professor_id, modalidade, data_matricula,
+    vencimento, valor_mensalidade, horario_id,
+    dias_escolhidos, status, observacoes
+  } = req.body;
+
+  await pool.query(`
+    UPDATE alunos SET
+      nome=$1, data_nascimento=$2, cpf=$3, telefone=$4, unidade=$5,
+      rua=$6, numero=$7, bairro=$8, cidade=$9,
+      nome_responsavel=$10, contato_responsavel=$11,
+      professor_id=$12, modalidade=$13, data_matricula=$14,
+      vencimento=$15, valor_mensalidade=$16, horario_id=$17,
+      dias_escolhidos=$18, status=$19, observacoes=$20
+    WHERE id=$21
+  `, [
+    nome, data_nascimento, cpf, telefone, unidade,
+    rua, numero, bairro, cidade,
+    nome_responsavel, contato_responsavel,
+    professor_id, modalidade, data_matricula,
+    vencimento, valor_mensalidade, horario_id,
+    dias_escolhidos, status, observacoes,
+    req.params.id
+  ]);
   res.json({ ok: true });
 });
 
-app.delete('/api/matriculas/:id', async function(req, res) {
-  await pool.query('DELETE FROM matriculas WHERE id = $1', [req.params.id]);
+app.delete('/api/alunos/:id', async function(req, res) {
+  await pool.query('DELETE FROM alunos WHERE id = $1', [req.params.id]);
   res.json({ ok: true });
 });
 
@@ -196,39 +208,37 @@ app.delete('/api/matriculas/:id', async function(req, res) {
 app.get('/api/pagamentos', async function(req, res) {
   const { mes, ano } = req.query;
   const resultado = await pool.query(`
-    SELECT p.*, m.vencimento, m.valor_mensalidade, m.modalidade,
-           pr.nome AS professor, a.nome, a.unidade
+    SELECT p.*, a.vencimento, a.valor_mensalidade, a.modalidade,
+           a.nome, a.unidade, pr.nome AS professor
     FROM pagamentos p
-    JOIN matriculas m ON p.matricula_id = m.id
-    LEFT JOIN professores pr ON m.professor_id = pr.id
-    JOIN alunos a ON m.aluno_id = a.id
+    JOIN alunos a ON p.aluno_id = a.id
+    LEFT JOIN professores pr ON a.professor_id = pr.id
     WHERE p.mes = $1 AND p.ano = $2
-    ORDER BY m.vencimento, a.nome
+    ORDER BY a.vencimento, a.nome
   `, [mes, ano]);
   res.json(resultado.rows);
 });
 
 app.post('/api/pagamentos/gerar', async function(req, res) {
   const { mes, ano } = req.body;
-  const matriculas = await pool.query('SELECT * FROM matriculas WHERE status = $1', ['ativo']);
+  const alunos = await pool.query("SELECT * FROM alunos WHERE status = 'ativo'");
 
-  for (const m of matriculas.rows) {
+  for (const a of alunos.rows) {
     await pool.query(`
-      INSERT INTO pagamentos (matricula_id, mes, ano, status)
+      INSERT INTO pagamentos (aluno_id, mes, ano, status)
       VALUES ($1, $2, $3, 'pendente')
-      ON CONFLICT (matricula_id, mes, ano) DO NOTHING
-    `, [m.id, mes, ano]);
+      ON CONFLICT (aluno_id, mes, ano) DO NOTHING
+    `, [a.id, mes, ano]);
   }
 
   const resultado = await pool.query(`
-    SELECT p.*, m.vencimento, m.valor_mensalidade, m.modalidade,
-           pr.nome AS professor, a.nome, a.unidade
+    SELECT p.*, a.vencimento, a.valor_mensalidade, a.modalidade,
+           a.nome, a.unidade, pr.nome AS professor
     FROM pagamentos p
-    JOIN matriculas m ON p.matricula_id = m.id
-    LEFT JOIN professores pr ON m.professor_id = pr.id
-    JOIN alunos a ON m.aluno_id = a.id
+    JOIN alunos a ON p.aluno_id = a.id
+    LEFT JOIN professores pr ON a.professor_id = pr.id
     WHERE p.mes = $1 AND p.ano = $2
-    ORDER BY m.vencimento, a.nome
+    ORDER BY a.vencimento, a.nome
   `, [mes, ano]);
 
   res.json(resultado.rows);
