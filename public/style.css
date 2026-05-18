@@ -273,3 +273,49 @@ body {
 @keyframes girar {
   to { transform: rotate(360deg); }
 }
+
+#usuario-info {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem 0.5rem;
+  border-top: 1px solid var(--cor-borda);
+  margin-top: auto;
+  gap: 2px;
+}
+
+#usuario-info i {
+  font-size: 22px;
+  color: var(--cor-destaque);
+  margin-bottom: 4px;
+}
+
+#usuario-nome {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cor-texto);
+}
+
+#usuario-perfil {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cor-texto-fraco);
+}
+
+#btn-logout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 1.25rem;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cor-texto-fraco);
+  cursor: pointer;
+  transition: all 0.15s;
+  border-top: 1px solid var(--cor-borda);
+}
+
+#btn-logout:hover {
+  color: #ff6b6b;
+  background: var(--cor-fundo);
+}

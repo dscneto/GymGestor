@@ -2,6 +2,11 @@ const express = require('express');
 const { Pool } = require('pg');
 const path = require('path');
 
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'dojo-system-secret-2026';
+
 const app = express();
 
 const pool = new Pool({
@@ -300,6 +305,71 @@ app.put('/api/espera/:id', async function(req, res) {
 app.delete('/api/espera/:id', async function(req, res) {
   await pool.query('DELETE FROM lista_espera WHERE id = $1', [req.params.id]);
   res.json({ ok: true });
+});
+
+// ================================
+// AUTENTICAÇÃO
+// ================================
+
+// Login
+app.post('/api/login', async function(req, res) {
+  const { usuario, senha } = req.body;
+
+  // Verifica se é admin
+  const admin = await pool.query('SELECT * FROM admins WHERE usuario = $1', [usuario]);
+  if (admin.rows.length > 0) {
+    const senhaCorreta = senha === admin.rows[0].senha;
+    if (!senhaCorreta) return res.status(401).json({ erro: 'Senha incorreta' });
+
+    const token = jwt.sign(
+      { id: admin.rows[0].id, usuario, perfil: 'admin', nome: admin.rows[0].nome },
+      JWT_SECRET,
+      { expiresIn: '12h' }
+    );
+    return res.json({ token, perfil: 'admin', nome: admin.rows[0].nome });
+  }
+
+  // Verifica se é professor
+  const professor = await pool.query('SELECT * FROM professores WHERE usuario = $1', [usuario]);
+  if (professor.rows.length === 0) return res.status(401).json({ erro: 'Usuário não encontrado' });
+
+  const senhaCorreta = senha === professor.rows[0].senha;
+  if (!senhaCorreta) return res.status(401).json({ erro: 'Senha incorreta' });
+
+  const token = jwt.sign(
+    { id: professor.rows[0].id, usuario, perfil: 'professor', nome: professor.rows[0].nome },
+    JWT_SECRET,
+    { expiresIn: '12h' }
+  );
+
+  res.json({ token, perfil: 'professor', nome: professor.rows[0].nome });
+});
+
+// Middleware de autenticação
+function autenticar(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) return res.status(401).json({ erro: 'Token não fornecido' });
+
+  jwt.verify(token, JWT_SECRET, function(err, usuario) {
+    if (err) return res.status(403).json({ erro: 'Token inválido' });
+    req.usuario = usuario;
+    next();
+  });
+}
+
+// Middleware apenas para admin
+function apenasAdmin(req, res, next) {
+  if (req.usuario.perfil !== 'admin') {
+    return res.status(403).json({ erro: 'Acesso restrito ao administrador' });
+  }
+  next();
+}
+
+// Verificar token
+app.get('/api/verificar', autenticar, function(req, res) {
+  res.json({ valido: true, usuario: req.usuario });
 });
 
 // ================================
