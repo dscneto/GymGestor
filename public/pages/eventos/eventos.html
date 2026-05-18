@@ -1,14 +1,64 @@
-<!DOCTYPE html>
-<html>
+<div class="page-header">
+  <div>
+    <div class="page-titulo">Eventos</div>
+    <div class="page-subtitulo" id="eventos-subtitulo">0 eventos cadastrados</div>
+  </div>
+  <button class="btn-primary" onclick="abrirFormEvento()">+ Novo Evento</button>
+</div>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-</head>
+<div class="table-card">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Data</th>
+        <th>Unidade</th>
+        <th>Descrição</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tbody-eventos"></tbody>
+  </table>
+</div>
 
-<body>
-  
-</body>
+<!-- FORMULÁRIO -->
+<div id="modal-evento" style="display:none;">
+  <div class="form-card" style="margin-top:1.5rem;">
+    <form id="form-evento">
+      <div class="form-grid">
 
-</html>
+        <div class="form-secao" id="evento-form-titulo">● Novo Evento</div>
+
+        <div class="form-group">
+          <label class="form-label">Título</label>
+          <input class="form-input" id="evento-titulo" type="text" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Data</label>
+          <input class="form-input" id="evento-data" type="date" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Unidade</label>
+          <select class="form-select" id="evento-unidade">
+            <option value="">Todas as unidades</option>
+            <option>Candeias</option>
+            <option>Brasil</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <label class="form-label">Descrição</label>
+          <textarea class="form-textarea" id="evento-descricao" rows="3" placeholder="Descreva o evento..."></textarea>
+        </div>
+
+      </div>
+
+      <div class="form-acoes">
+        <button type="button" class="btn-ghost" onclick="fecharFormEvento()">Cancelar</button>
+        <button type="submit" class="btn-primary" id="evento-btn-salvar">Cadastrar Evento</button>
+      </div>
+    </form>
+  </div>
+</div>
