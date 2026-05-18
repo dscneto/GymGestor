@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
+  <!-- Pacote de icones -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
   <!-- CSS das páginas — pré-carregados mas desativados -->
   <link rel="stylesheet" href="pages/dashboard/dashboard.css"         data-page="dashboard"     disabled>
   <link rel="stylesheet" href="pages/experimentais/experimentais.css" data-page="experimentais" disabled>
@@ -20,39 +23,38 @@
   <link rel="stylesheet" href="pages/eventos/eventos.css"           data-page="eventos"      disabled>
   <link rel="stylesheet" href="pages/aniversarios/aniversarios.css" data-page="aniversarios" disabled>
   <link rel="stylesheet" href="pages/espera/espera.css" data-page="espera" disabled>
+
 </head>
 
 <body>
-
   <div id="loading">
     <div class="loading-spinner"></div>
   </div>
-
+  
   <div id="app">
-
     <!-- SIDEBAR -->
-    <aside id="sidebar">
+     <aside id="sidebar">
       <div id="logo">
         <h1>Dojo<br>System</h1>
         <span>Gestão da Academia</span>
       </div>
-
-<nav>
-  <!-- Dashboard -->
-  <div class="nav-grupo">
-    <a href="#" class="nav-item active" data-page="dashboard">
-      ◈ Dashboard
-    </a>
-  </div>
-
-  <!-- Experimentais -->
-  <div class="nav-grupo">
-    <div class="nav-grupo-titulo">Experimentais</div>
-    <a href="#" class="nav-item sub" data-page="lista">
-      ≡ Agendamentos
+      
+      <nav>
+        <!-- Dashboard -->
+         <div class="nav-grupo">
+          <a href="#" class="nav-item active" data-page="dashboard">
+            <i class="ph ph-squares-four"></i> Dashboard
+          </a>
+        </div>
+        
+        <!-- Experimentais -->
+         <div class="nav-grupo">
+          <div class="nav-grupo-titulo">Experimentais</div>
+          <a href="#" class="nav-item sub" data-page="lista">
+      <i class="ph ph-calendar-blank"></i> Agendamentos
     </a>
     <a href="#" class="nav-item sub" data-page="experimentais">
-      ＋ Nova Experimental
+      <i class="ph ph-calendar-plus"></i> Nova Experimental
     </a>
   </div>
 
@@ -60,13 +62,13 @@
   <div class="nav-grupo">
     <div class="nav-grupo-titulo">Matrículas</div>
     <a href="#" class="nav-item sub" data-page="matriculados">
-      ≡ Matriculados
+      <i class="ph ph-users"></i> Matriculados
     </a>
     <a href="#" class="nav-item sub" data-page="matriculas">
-      ＋ Nova Matrícula
+      <i class="ph ph-user-plus"></i> Nova Matrícula
     </a>
     <a href="#" class="nav-item sub" data-page="mensalidades">
-      ◷ Mensalidades
+      <i class="ph ph-money"></i> Mensalidades
     </a>
   </div>
 
@@ -74,24 +76,24 @@
   <div class="nav-grupo">
     <div class="nav-grupo-titulo">Academia</div>
     <a href="#" class="nav-item sub" data-page="professores">
-      ≡ Professores
+      <i class="ph ph-chalkboard-teacher"></i> Professores
     </a>
     <a href="#" class="nav-item sub" data-page="eventos">
-      ◈ Eventos
+      <i class="ph ph-flag"></i> Eventos
     </a>
     <a href="#" class="nav-item sub" data-page="aniversarios">
-      ◈ Aniversários
+      <i class="ph ph-cake"></i> Aniversários
     </a>
     <a href="#" class="nav-item sub" data-page="espera">
-      ◷ Lista de Espera
+      <i class="ph ph-clock-countdown"></i> Lista de Espera
     </a>
   </div>
 </nav>
-
-      <div id="toggle-tema" onclick="alternarTema()">
-        <span id="tema-label">☀ Tema Claro</span>
-      </div>
-    </aside>
+<div id="toggle-tema" onclick="alternarTema()">
+  <i class="ph ph-sun" id="tema-icone"></i>
+  <span id="tema-label">Tema Claro</span>
+</div>
+</aside>
 
     <!-- CONTEÚDO -->
     <main id="conteudo"></main>

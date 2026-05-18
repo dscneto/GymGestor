@@ -18,11 +18,13 @@ function alternarTema() {
   const atual = document.body.getAttribute('data-tema');
   if (atual === 'escuro') {
     document.body.removeAttribute('data-tema');
-    document.getElementById('tema-label').textContent = '☀ Tema Claro';
+    document.getElementById('tema-label').textContent = 'Tema Claro';
+    document.getElementById('tema-icone').className   = 'ph ph-sun';
     localStorage.setItem('tema', 'claro');
   } else {
     document.body.setAttribute('data-tema', 'escuro');
-    document.getElementById('tema-label').textContent = '☾ Tema Escuro';
+    document.getElementById('tema-label').textContent = 'Tema Escuro';
+    document.getElementById('tema-icone').className   = 'ph ph-moon';
     localStorage.setItem('tema', 'escuro');
   }
 }
