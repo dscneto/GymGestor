@@ -271,6 +271,38 @@ app.delete('/api/eventos/:id', async function(req, res) {
 });
 
 // ================================
+// LISTA DE ESPERA
+// ================================
+
+app.get('/api/espera', async function(req, res) {
+  const resultado = await pool.query('SELECT * FROM lista_espera ORDER BY data_cadastro, nome');
+  res.json(resultado.rows);
+});
+
+app.post('/api/espera', async function(req, res) {
+  const { nome, nome_responsavel, idade, modalidade, turma, contato, observacao } = req.body;
+  const resultado = await pool.query(
+    'INSERT INTO lista_espera (nome, nome_responsavel, idade, modalidade, turma, contato, observacao) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
+    [nome, nome_responsavel, idade, modalidade, turma, contato, observacao]
+  );
+  res.json({ id: resultado.rows[0].id });
+});
+
+app.put('/api/espera/:id', async function(req, res) {
+  const { nome, nome_responsavel, idade, modalidade, turma, contato, observacao } = req.body;
+  await pool.query(
+    'UPDATE lista_espera SET nome=$1, nome_responsavel=$2, idade=$3, modalidade=$4, turma=$5, contato=$6, observacao=$7 WHERE id=$8',
+    [nome, nome_responsavel, idade, modalidade, turma, contato, observacao, req.params.id]
+  );
+  res.json({ ok: true });
+});
+
+app.delete('/api/espera/:id', async function(req, res) {
+  await pool.query('DELETE FROM lista_espera WHERE id = $1', [req.params.id]);
+  res.json({ ok: true });
+});
+
+// ================================
 // SERVIDOR
 // ================================
 

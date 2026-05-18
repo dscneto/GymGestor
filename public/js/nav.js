@@ -10,6 +10,7 @@ const paginas = {
   professores:  { html: 'pages/professores/professores.html',     js: 'pages/professores/professores.js'     },
   eventos:      { html: 'pages/eventos/eventos.html',             js: 'pages/eventos/eventos.js'             },
   aniversarios: { html: 'pages/aniversarios/aniversarios.html',   js: 'pages/aniversarios/aniversarios.js'   },
+  espera: { html: 'pages/espera/espera.html', js: 'pages/espera/espera.js' },
 };
 
 let jsAtual = null;

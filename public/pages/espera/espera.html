@@ -1,0 +1,103 @@
+<div class="page-header">
+  <div>
+    <div class="page-titulo">Lista de Espera</div>
+    <div class="page-subtitulo" id="espera-subtitulo">0 alunos aguardando</div>
+  </div>
+  <button class="btn-primary" onclick="abrirFormEspera()">+ Adicionar</button>
+</div>
+
+<div class="filtros-row">
+  <input class="input-busca" id="espera-busca" type="text" placeholder="Buscar aluno...">
+  <select class="filtro-select" id="espera-filtro-modalidade">
+    <option value="">Todas as modalidades</option>
+    <option>Jiu-Jitsu</option>
+    <option>Muay Thai</option>
+    <option>Karatê</option>
+    <option>Ninjutsu</option>
+    <option>Krav Maga</option>
+  </select>
+</div>
+
+<div class="table-card">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Aluno</th>
+        <th>Idade</th>
+        <th>Modalidade</th>
+        <th>Turma</th>
+        <th>Responsável</th>
+        <th>Contato</th>
+        <th>Cadastro</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tbody-espera"></tbody>
+  </table>
+</div>
+
+<!-- FORMULÁRIO -->
+<div id="modal-espera" style="display:none;">
+  <div class="form-card" style="margin-top:1.5rem;">
+    <form id="form-espera">
+      <div class="form-grid">
+
+        <div class="form-secao" id="espera-form-titulo">● Adicionar à Lista de Espera</div>
+
+        <div class="form-group">
+          <label class="form-label">Nome do Aluno</label>
+          <input class="form-input" id="espera-nome" type="text" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Idade</label>
+          <input class="form-input" id="espera-idade" type="number" placeholder="Ex: 8">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Nome do Responsável</label>
+          <input class="form-input" id="espera-responsavel" type="text">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Contato</label>
+          <input class="form-input" id="espera-contato" type="text" placeholder="(00) 00000-0000" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Modalidade</label>
+          <select class="form-select" id="espera-modalidade" required>
+            <option value="">Selecione a modalidade</option>
+            <option>Jiu-Jitsu</option>
+            <option>Muay Thai</option>
+            <option>Karatê</option>
+            <option>Ninjutsu</option>
+            <option>Krav Maga</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Turma de Interesse</label>
+          <select class="form-select" id="espera-turma">
+            <option value="">Selecione a turma</option>
+            <option>Infantil</option>
+            <option>Iniciante</option>
+            <option>Feminina</option>
+            <option>Regular</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <label class="form-label">Observação</label>
+          <textarea class="form-textarea" id="espera-observacao" rows="2" placeholder="Informações adicionais..."></textarea>
+        </div>
+
+      </div>
+
+      <div class="form-acoes">
+        <button type="button" class="btn-ghost" onclick="fecharFormEspera()">Cancelar</button>
+        <button type="submit" class="btn-primary" id="espera-btn-salvar">Adicionar à Lista</button>
+      </div>
+    </form>
+  </div>
+</div>
