@@ -25,42 +25,39 @@ const classeAluno = {
 };
 
 async function iniciarAniversarios() {
-  // Busca professores e alunos
-  const [resProfessores, resAlunos, resMatriculas] = await Promise.all([
+  const [resProfessores, resAlunos] = await Promise.all([
     fetch('/api/professores'),
-    fetch('/api/alunos'),
-    fetch('/api/matriculas')
+    fetch('/api/alunos')
   ]);
 
   const professores = await resProfessores.json();
   const alunos      = await resAlunos.json();
-  const matriculas  = await resMatriculas.json();
 
-  // Monta lista de aniversários
   todosAniversarios = [];
 
+  // Adiciona professores
   professores.forEach(function(p) {
     if (!p.data_nascimento) return;
     const mods = p.modalidades ? p.modalidades.split(',') : [''];
     mods.forEach(function(mod) {
       todosAniversarios.push({
-        nome:           p.nome,
+        nome:            p.nome,
         data_nascimento: p.data_nascimento,
-        tipo:           'professor',
-        modalidade:     mod.trim(),
-        unidades:       p.unidades
+        tipo:            'professor',
+        modalidade:      mod.trim(),
+        unidade:         p.unidades
       });
     });
   });
 
+  // Adiciona alunos — modalidade já está na tabela unificada
   alunos.forEach(function(a) {
     if (!a.data_nascimento) return;
-    const mat = matriculas.find(function(m) { return m.aluno_id === a.id; });
     todosAniversarios.push({
       nome:            a.nome,
       data_nascimento: a.data_nascimento,
       tipo:            'aluno',
-      modalidade:      mat ? mat.modalidade : '',
+      modalidade:      a.modalidade || '',
       unidade:         a.unidade
     });
   });
@@ -78,7 +75,6 @@ async function iniciarAniversarios() {
   // Seta filtro para mês atual
   document.getElementById('aniv-filtro-mes').value = mesAtual;
 
-  // Ativa filtros
   document.getElementById('aniv-filtro-mes').addEventListener('change', aplicarFiltros);
   document.getElementById('aniv-filtro-tipo').addEventListener('change', aplicarFiltros);
   document.getElementById('aniv-filtro-modalidade').addEventListener('change', aplicarFiltros);
@@ -87,14 +83,14 @@ async function iniciarAniversarios() {
 }
 
 function aplicarFiltros() {
-  const mes       = parseInt(document.getElementById('aniv-filtro-mes').value);
-  const tipo      = document.getElementById('aniv-filtro-tipo').value;
+  const mes        = parseInt(document.getElementById('aniv-filtro-mes').value);
+  const tipo       = document.getElementById('aniv-filtro-tipo').value;
   const modalidade = document.getElementById('aniv-filtro-modalidade').value;
 
   let filtrados = todosAniversarios.filter(function(a) {
-    const mesAniv = parseInt(a.data_nascimento.split('-')[1]);
-    const bateMes       = mes === 0 || mesAniv === mes;
-    const bateTipo      = tipo === '' || a.tipo === tipo;
+    const mesAniv        = parseInt(a.data_nascimento.split('-')[1]);
+    const bateMes        = mes === 0 || mesAniv === mes;
+    const bateTipo       = tipo === '' || a.tipo === tipo;
     const bateModalidade = modalidade === '' || a.modalidade === modalidade;
     return bateMes && bateTipo && bateModalidade;
   });
@@ -124,13 +120,12 @@ function renderizarCards(containerId, lista) {
   }
 
   container.innerHTML = lista.map(function(a) {
-    const partes = a.data_nascimento.split('-');
-    const dia    = partes[2];
-    const mes    = parseInt(partes[1]);
-    const ano    = partes[0];
-    const idade  = new Date().getFullYear() - parseInt(ano);
-
-    const ehHoje = parseInt(dia) === diaAtual && mes === mesAtual;
+    const partes  = a.data_nascimento.split('-');
+    const dia     = partes[2];
+    const mes     = parseInt(partes[1]);
+    const ano     = partes[0];
+    const idade   = new Date().getFullYear() - parseInt(ano);
+    const ehHoje  = parseInt(dia) === diaAtual && mes === mesAtual;
     const nomeMes = nomesMeses[mes - 1];
 
     const classeBase = a.tipo === 'professor'
